@@ -9,22 +9,13 @@ Learn more about the TabView component in this documentation article:
 http://docs.nativescript.org/angular/code-samples/ui/tab-view
 -->
 <TabView (selectedIndexChanged)="onSelectedIndexChanged($event)">
-    <!--
-    To add a new TabView item, add a new layout component with a tabItem Angular directive.
-    Assign the tabItem directive an object that declares the tab item button's title and icon source.
-    -->
     <StackLayout *tabItem="{title: 'Today', iconSource: getIconSource('home')}">
-        <!--
-        You can declare the layout and components of each view inside the TabView items directly.
-        In this case the view contents and back end logic are separated in nested components.
-        You can find these components in their respective folders /home, /browse etc.
-        -->
-        <Home></Home>
+        <Home [fromDate]="getDatePlusDays(0)" [toDate]="getDatePlusDays(0)"></Home>
     </StackLayout>
     <StackLayout *tabItem="{title: 'Tomorrow', iconSource: getIconSource('browse')}">
-        <Browse></Browse>
+        <Home [fromDate]="getDatePlusDays(1)" [toDate]="getDatePlusDays(1)"></Home>
     </StackLayout>
     <StackLayout *tabItem="{title: '7 Days', iconSource: getIconSource('search')}">
-        <Search></Search>
+        <Home [fromDate]="getDatePlusDays(0)" [toDate]="getDatePlusDays(7)"></Home>
     </StackLayout>
 </TabView>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { isAndroid } from "platform";
-import { SelectedIndexChangedEventData, TabView, TabViewItem } from "tns-core-modules/ui/tab-view";
+import {Component, OnInit} from "@angular/core";
+import {isAndroid} from "platform";
+import {SelectedIndexChangedEventData, TabView} from "tns-core-modules/ui/tab-view";
 
 @Component({
     selector: "TabsComponent",
@@ -55,5 +55,13 @@ export class TabsComponent implements OnInit {
         const selectedTabViewItem = tabView.items[args.newIndex];
 
         this.title = selectedTabViewItem.title;
+    }
+
+    public getDatePlusDays(dayCount: number): Date {
+
+        let d = new Date();
+        d.setDate(d.getDate() + dayCount);
+
+        return d;
     }
 }
