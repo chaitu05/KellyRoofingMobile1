@@ -17,3 +17,27 @@
         margin-top: 20%;
     }
 }
+
+$order-odd-bg-color: #f2f2f2;
+$order-even-bg-color: #d1e1f9;
+
+.odd {
+  background-color: $order-odd-bg-color;
+}
+
+.even {
+  background-color: $order-even-bg-color;
+}
+
+#cardItemsStack {
+    //margin: 2dpi;
+    padding: 10dpi;
+}
+
+.cardStyle {
+  //background-color: #9e9e9e;
+  //background-color: #3489db;
+  //color: #fff;
+  margin: 5dpi;
+  //padding: 10dpi;
+}
