@@ -10,12 +10,12 @@ http://docs.nativescript.org/angular/code-samples/ui/tab-view
 -->
 <TabView (selectedIndexChanged)="onSelectedIndexChanged($event)">
     <StackLayout *tabItem="{title: 'Today', iconSource: getIconSource('home')}">
-        <Home [fromDate]="getDatePlusDays(0)" [toDate]="getDatePlusDays(0)"></Home>
+        <OrderList [fromDate]="getDatePlusDays(0)" [toDate]="getDatePlusDays(0)"></OrderList>
     </StackLayout>
     <StackLayout *tabItem="{title: 'Tomorrow', iconSource: getIconSource('browse')}">
-        <Home [fromDate]="getDatePlusDays(1)" [toDate]="getDatePlusDays(1)"></Home>
+        <OrderList [fromDate]="getDatePlusDays(1)" [toDate]="getDatePlusDays(1)"></OrderList>
     </StackLayout>
     <StackLayout *tabItem="{title: '7 Days', iconSource: getIconSource('search')}">
-        <Home [fromDate]="getDatePlusDays(0)" [toDate]="getDatePlusDays(7)"></Home>
+        <OrderList [fromDate]="getDatePlusDays(0)" [toDate]="getDatePlusDays(7)"></OrderList>
     </StackLayout>
 </TabView>

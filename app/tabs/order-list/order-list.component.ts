@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from "@angular/core";
 
 @Component({
-    selector: "Home",
+    selector: "OrderList",
     moduleId: module.id,
-    templateUrl: "./home.component.html"
+    templateUrl: "./order-list.component.html"
 })
-export class HomeComponent implements OnInit {
+export class OrderListComponent implements OnInit {
 
     @Input() fromDate: Date;
     @Input() toDate: Date;
