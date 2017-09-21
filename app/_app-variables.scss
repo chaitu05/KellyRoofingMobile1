@@ -26,7 +26,6 @@
 //$night-dark: #023141 !default;
 //$night-light: #01526C !default;
 
-//$page-icon-color: #D7D7D7 !default;
 
 // Sizes
 //$button-height: 36 !default;
@@ -67,3 +66,5 @@ $btn-color-inverse: $charcoal;
 $btn-color: $accent;
 $btn-color-secondary: darken($btn-color, 10%);
 $btn-color-outline-highlighted: lighten($btn-color, 10%);
+
+$page-icon-color: $sky;
