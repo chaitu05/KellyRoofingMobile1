@@ -5,8 +5,8 @@
 
     <ListView [items]="ordersFromTab" (itemTap)="onOrderTap($event)" separatorColor="white">
         <ng-template let-item="item" let-odd="odd" let-even="even">
-         <CardView radius="5" class="cardStyle" [class.odd]="odd" [class.even]="even">
-            <StackLayout id="cardItemsStack" orientation="vertical">
+         <CardView radius="5" class="cardStyle" >
+            <StackLayout id="cardItemsStack" orientation="vertical" [class.odd]="odd" [class.even]="even">
                 <Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
                 <Label [text]="'Order status: ' + getOrderStatus(item)"></Label>
                 <Label [text]="'Order date: ' + (item.orderDate | date:'EEEE, MMM d, y')"></Label>
