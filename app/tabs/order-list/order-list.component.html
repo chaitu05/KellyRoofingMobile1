@@ -1,18 +1,23 @@
 <StackLayout padding="10dpi">
 
-    <!--<ListPicker [items]="searchableProps" selectedIndex="0" (selectedIndexChange)="selectedIndexChanged($event)"
-                class="p-15"></ListPicker>-->
+    <StackLayout orientation="horizontal" horizontalAlignment="center" verticalAlignment="center">
+        <Label text="Filter on: "></Label>
+        <ListPicker [items]="filterOnProps" selectedIndex="0"
+                    (selectedIndexChange)="filterItemChanged($event)"
+                    class="p-15"></ListPicker>
+        <TextField hint="Enter filter text" text=""></TextField>
+    </StackLayout>
 
     <ListView [items]="ordersFromTab" (itemTap)="onOrderTap($event)" separatorColor="white">
         <ng-template let-item="item" let-odd="odd" let-even="even">
-         <CardView radius="5" class="cardStyle" >
+         <CardView radius="15" class="cardStyle" >
             <StackLayout id="cardItemsStack" orientation="vertical" [class.odd]="odd" [class.even]="even">
                 <Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
                 <Label [text]="'Order status: ' + getOrderStatus(item)"></Label>
                 <Label [text]="'Order date: ' + (item.orderDate | date:'EEEE, MMM d, y')"></Label>
                 <Label [text]="'Pickup date: ' + (item.pickupDate | date:'EEEE, MMM d, y')"></Label>
                 <Label [text]="item.city"></Label>
-                <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>
+                <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk sdfe hfsd skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>
             </StackLayout>
          </CardView>
         </ng-template>

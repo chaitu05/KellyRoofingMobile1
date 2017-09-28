@@ -18,6 +18,8 @@ export class OrderListComponent implements OnInit {
     @Input() toDate: Date;
     @Input() ordersFromTab: Array<Order>;
 
+    public filterOnProps = ["Job Name", "Purchase OrderO#", "City", "Sales Order#"];
+
     constructor() {
         /* ***********************************************************
         * Use the constructor to inject services.
@@ -60,6 +62,10 @@ export class OrderListComponent implements OnInit {
             (order.orderConfirmations[0].priorDays > 1 ? "day " : "days " + "prior");
 
     };
+
+    public filterItemChanged(args) {
+        // todo: update showing orders
+    }
 
     /*private dummyOrderInitialize() {
         this.orders.push({
