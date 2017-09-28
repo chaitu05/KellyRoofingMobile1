@@ -1,14 +1,9 @@
-<!--<GridLayout class="page page-content" tkMainContent>
-    <Label class="page-icon fa" text="&#xf015;"></Label>
-    <Label class="page-placeholder" text="&lt;!&ndash; Page content goes here &ndash;&gt;"></Label>
-</GridLayout>-->
-
 <StackLayout padding="10dpi">
 
     <!--<ListPicker [items]="searchableProps" selectedIndex="0" (selectedIndexChange)="selectedIndexChanged($event)"
                 class="p-15"></ListPicker>-->
 
-    <ListView [items]="orders" (itemTap)="onOrderTap($event)" separatorColor="white">
+    <ListView [items]="ordersFromTab" (itemTap)="onOrderTap($event)" separatorColor="white">
         <ng-template let-item="item" let-odd="odd" let-even="even">
          <CardView radius="5" class="cardStyle" [class.odd]="odd" [class.even]="even">
             <StackLayout id="cardItemsStack" orientation="vertical">
@@ -22,4 +17,34 @@
          </CardView>
         </ng-template>
     </ListView>
+
 </StackLayout>
+
+
+
+
+<!--
+<GridLayout verticalAlignment="top" rows="*">
+            <RadListView [items]="orders" separatorColor="white">
+                <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
+
+                </ListViewLinearLayout>
+                <ng-template backgroundColor="red" tkListItemTemplate let-item="item">
+
+                    <CardView radius="5" class="cardStyle" [class.odd]="odd" [class.even]="even">
+                        <StackLayout id="cardItemsStack" orientation="vertical">
+                            <Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
+                            <Label [text]="'Order status: ' + getOrderStatus(item)"></Label>
+                            <Label [text]="'Order date: ' + (item.orderDate | date:'EEEE, MMM d, y')"></Label>
+                            <Label [text]="'Pickup date: ' + (item.pickupDate | date:'EEEE, MMM d, y')"></Label>
+                            <Label [text]="item.city"></Label>
+                            <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>
+                        </StackLayout>
+                    </CardView>
+
+                </ng-template>
+            </RadListView>
+</GridLayout>
+
+-->
+
