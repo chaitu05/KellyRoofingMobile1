@@ -15,5 +15,8 @@ export const environment = {
 	TodayOrders : "TodayOrders",
 	TomorrowOrders : "TomorrowOrders",
 	Next7DayOrders : "Next7DayOrders",
+	SelectFilterProp : "Select",
+	NoFilterProp : "No Filter",
+	filterOnProps : ["No Filter", "Job Name", "Purchase Order#", "City", "Sales Order#"],
 
 }

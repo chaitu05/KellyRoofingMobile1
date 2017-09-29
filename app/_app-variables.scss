@@ -68,3 +68,7 @@ $btn-color-secondary: darken($btn-color, 10%);
 $btn-color-outline-highlighted: lighten($btn-color, 10%);
 
 $page-icon-color: $sky;
+
+.btn {
+    text-transform: capitalize;
+}

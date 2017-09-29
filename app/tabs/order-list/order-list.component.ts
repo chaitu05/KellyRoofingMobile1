@@ -1,10 +1,16 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import * as elementRegistryModule from 'nativescript-angular/element-registry';
 import {Order} from "../../model/order";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 import {ItemEventData} from "tns-core-modules/ui/list-view";
+import {environment} from "../../config/environment";
+import {TextField} from "tns-core-modules/ui/text-field";
+import {ActionOptions} from "tns-core-modules/ui/dialogs";
 
 elementRegistryModule.registerElement("CardView",
     () => require("nativescript-cardview").CardView);
+elementRegistryModule.registerElement("FilterSelect",
+    () => require("nativescript-filter-select").FilterSelect);
 
 @Component({
     selector: "OrderList",
@@ -18,7 +24,12 @@ export class OrderListComponent implements OnInit {
     @Input() toDate: Date;
     @Input() ordersFromTab: Array<Order>;
 
-    public filterOnProps = ["Job Name", "Purchase OrderO#", "City", "Sales Order#"];
+    public emptyFilterProp = environment.SelectFilterProp;
+    public selectedFilterProp = this.emptyFilterProp;
+    public noFilterProp = environment.NoFilterProp;
+    public filterOnProps = environment.filterOnProps;
+
+    @ViewChild("filterTextField") filterTf: TextField;
 
     constructor() {
         /* ***********************************************************
@@ -34,11 +45,7 @@ export class OrderListComponent implements OnInit {
         * Use the "ngOnInit" handler to initialize data for the view.
         *************************************************************/
         console.log('$$$$$$$$  in ngOnint, from date: ' + this.fromDate);
-        console.log('$$$$$$$$  in ngOnint, to date: ' + this.toDate);
-        console.log('$$$$$$$$  in ngOnint, to ordersfromtab: ' + this.ordersFromTab);
-        // this.dummyOrderInitialize();
 
-        // console.log("$$$$$$$$ \n orders array initialized: " + this.orders.length);
     }
 
     /*lmi(args: ItemEventData): void {
@@ -49,7 +56,7 @@ export class OrderListComponent implements OnInit {
         console.log('$$$$$$$$$ Item tapped: ' + args);
     }
 
-    public getOrderStatus(order:Order):string {
+    public getOrderStatus(order: Order): string {
 
         if (order.isShipped)
             return "Shipped";
@@ -67,6 +74,24 @@ export class OrderListComponent implements OnInit {
         // todo: update showing orders
     }
 
+    public showFilterListPicker(args) {
+
+        var options:ActionOptions = {
+            message: "Select Filter",
+            cancelButtonText: "Cancel",
+            actions: this.filterOnProps
+        };
+
+        dialogs.action(options).then((result) => {
+            console.log(result);
+            if (result === 'Cancel' || result === this.noFilterProp)
+                this.selectedFilterProp = this.emptyFilterProp;
+            else {
+                this.selectedFilterProp = result;
+                this.filterTf.focus();
+            }
+        });
+    }
     /*private dummyOrderInitialize() {
         this.orders.push({
             purchOrderNum: 12345, salesOrderNum: 2789, licenseNum: 2,

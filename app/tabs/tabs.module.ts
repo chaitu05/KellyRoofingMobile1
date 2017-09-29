@@ -5,6 +5,7 @@ import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angul
 import { OrderListComponent } from "./order-list/order-list.component";
 import { TabsRoutingModule } from "./tabs-routing.module";
 import { TabsComponent } from "./tabs.component";
+import {ScratchCompComponent} from "./scratch-comp/scratch-comp.component";
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { TabsComponent } from "./tabs.component";
     declarations: [
         TabsComponent,
         OrderListComponent,
+        ScratchCompComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
