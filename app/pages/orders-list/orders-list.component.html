@@ -1,6 +1,6 @@
-<StackLayout padding="10dpi" class="form" backgroundColor="#a52a2a">
+<StackLayout padding="10dpi" class="form">
 
-    <!--<GridLayout columns="auto, auto, *" rows="auto" horizontalAlignment="center"
+    <GridLayout columns="auto, auto, *" rows="auto" horizontalAlignment="center"
                 verticalAlignment="center" >
         <Label text="Filter on: " verticalAlignment="center" col="0"></Label>
         <Button [text]="selectedFilterProp" (tap)="showFilterListPicker($event)" col="1"
@@ -14,18 +14,19 @@
 
     <ListView [items]="orders" (itemTap)="onOrderTap($event)" separatorColor="white">
         <ng-template let-item="item" let-odd="odd" let-even="even">
-         <CardView radius="15" class="cardStyle" >
-            <StackLayout id="cardItemsStack" orientation="vertical" [class.odd]="odd" [class.even]="even">
-                <Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
-                <Label [text]="'Order status: ' + getOrderStatus(item)"></Label>
-                <Label [text]="'Order date: ' + (item.orderDate | date:'EEEE, MMM d, y')"></Label>
-                <Label [text]="'Pickup date: ' + (item.pickupDate | date:'EEEE, MMM d, y')"></Label>
-                <Label [text]="item.city"></Label>
-                <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk sdfe hfsd skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>
-            </StackLayout>
-         </CardView>
+            <CardView radius="15" class="cardStyle" >
+                <StackLayout id="cardItemsStack" orientation="vertical" [class.odd]="odd" [class.even]="even">
+                    <Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
+                    <Label [text]="'Order status: ' + getOrderStatus(item)"></Label>
+                    <Label [text]="'Order date: ' + (item.orderDate | date:'EEEE, MMM d, y')"></Label>
+                    <Label [text]="'Pickup date: ' + (item.pickupDate | date:'EEEE, MMM d, y')"></Label>
+                    <Label [text]="item.city"></Label>
+                    <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk sdfe hfsd skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>
+                </StackLayout>
+            </CardView>
         </ng-template>
-    </ListView>-->
+    </ListView>
+    <!--<Label text="$$$$$$$$$$$$$$$$$$$$$$$$ hello"></Label>-->
 
 </StackLayout>
 

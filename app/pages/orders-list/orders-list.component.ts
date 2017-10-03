@@ -13,31 +13,32 @@ elementRegistryModule.registerElement("FilterSelect",
     () => require("nativescript-filter-select").FilterSelect);*/
 
 @Component({
-    selector: "OrderList",
+    selector: "OrdersList",
     moduleId: module.id,
-    templateUrl: "./order-list.component.html",
-    styleUrls: ["./order-list.component.css"]
+    templateUrl: "./orders-list.component.html",
+    styleUrls: ["./orders-list.component.css"]
 })
-export class OrderListComponent implements OnInit {
+export class OrdersListComponent implements OnInit {
 
-    /*@Input() fromDate: Date;
+    @Input() fromDate: Date;
     @Input() toDate: Date;
-    @Input() ordersFromTab: Array<Order>;
+    // @Input() ordersFromTab: Array<Order>;
+    public orders: Array<Order> = [];
 
     public emptyFilterProp = environment.SelectFilterProp;
     public selectedFilterProp = this.emptyFilterProp;
     public noFilterProp = environment.NoFilterProp;
     public filterOnProps = environment.filterOnProps;
 
-    @ViewChild("filterTextField") filterTf: TextField;*/
+    @ViewChild("filterTextField") filterTf: TextField;
 
     constructor() {
         /* ***********************************************************
         * Use the constructor to inject services.
         *************************************************************/
-        /*console.log('$$$$$$$$  in constructor, from date: ' + this.fromDate);
+        console.log('$$$$$$$$  in constructor, from date: ' + this.fromDate);
         console.log('$$$$$$$$  in constructor, to date: ' + this.toDate);
-        console.log('$$$$$$$$  in constructor, to date: ' + this.ordersFromTab);*/
+        console.log('$$$$$$$$  in constructor, to date: ' + this.orders);
     }
 
     ngOnInit(): void {
@@ -45,14 +46,12 @@ export class OrderListComponent implements OnInit {
         * Use the "ngOnInit" handler to initialize data for the view.
         *************************************************************/
         // console.log('$$$$$$$$  in ngOnint, from date: ' + this.fromDate);
+        console.log('$$$$$$$ in orders list comp ngOnInit');
+        this.dummyOrderInitialize();
 
     }
 
-    /*lmi(args: ItemEventData): void {
-        console.log('$$$$$$$$$ Load more items: ' + args);
-    }*/
-
-    /*onOrderTap(args: ItemEventData): void {
+    onOrderTap(args: ItemEventData): void {
         console.log('$$$$$$$$$ Item tapped: ' + args);
     }
 
@@ -91,8 +90,9 @@ export class OrderListComponent implements OnInit {
                 this.filterTf.focus();
             }
         });
-    }*/
-    /*private dummyOrderInitialize() {
+    }
+
+    private dummyOrderInitialize() {
         this.orders.push({
             purchOrderNum: 12345, salesOrderNum: 2789, licenseNum: 2,
             jobName: 'wal-mart', materialType: 'ISO', orderDate: new Date(),
@@ -555,5 +555,6 @@ export class OrderListComponent implements OnInit {
             orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
                 {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
         });
-    }*/
+    }
+
 }
