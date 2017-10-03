@@ -1,5 +1,7 @@
 <StackLayout padding="10dpi" class="form">
 
+    <SegmentedBar [items]="segBarItems" selectedIndex="0"
+                  (selectedIndexChange)="onSegBarSelectedIndexChange($event)" class="m-5"></SegmentedBar>
     <GridLayout columns="auto, auto, *" rows="auto" horizontalAlignment="center"
                 verticalAlignment="center" >
         <Label text="Filter on: " verticalAlignment="center" col="0"></Label>

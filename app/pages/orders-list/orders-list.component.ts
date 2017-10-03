@@ -6,6 +6,7 @@ import {ItemEventData} from "tns-core-modules/ui/list-view";
 import {environment} from "../../config/environment";
 import {TextField} from "tns-core-modules/ui/text-field";
 import {ActionOptions} from "tns-core-modules/ui/dialogs";
+import {SegmentedBar, SegmentedBarItem} from "tns-core-modules/ui/segmented-bar";
 
 /*elementRegistryModule.registerElement("CardView",
     () => require("nativescript-cardview").CardView);
@@ -24,6 +25,7 @@ export class OrdersListComponent implements OnInit {
     @Input() toDate: Date;
     // @Input() ordersFromTab: Array<Order>;
     public orders: Array<Order> = [];
+    public segBarItems: Array<SegmentedBarItem> = [];
 
     public emptyFilterProp = environment.SelectFilterProp;
     public selectedFilterProp = this.emptyFilterProp;
@@ -33,20 +35,29 @@ export class OrdersListComponent implements OnInit {
     @ViewChild("filterTextField") filterTf: TextField;
 
     constructor() {
-        /* ***********************************************************
-        * Use the constructor to inject services.
-        *************************************************************/
         console.log('$$$$$$$$  in constructor, from date: ' + this.fromDate);
         console.log('$$$$$$$$  in constructor, to date: ' + this.toDate);
         console.log('$$$$$$$$  in constructor, to date: ' + this.orders);
     }
 
+    private initSegBarItems() {
+
+        const today = new SegmentedBarItem();
+        today.title = "Today";
+        this.segBarItems.push(today);
+
+        const tomorrow = new SegmentedBarItem();
+        tomorrow.title = "Tomorrow";
+        this.segBarItems.push(tomorrow);
+
+        const next7days = new SegmentedBarItem();
+        next7days.title = "Next 7 Days";
+        this.segBarItems.push(next7days);
+    }
+
     ngOnInit(): void {
-        /* ***********************************************************
-        * Use the "ngOnInit" handler to initialize data for the view.
-        *************************************************************/
-        // console.log('$$$$$$$$  in ngOnint, from date: ' + this.fromDate);
         console.log('$$$$$$$ in orders list comp ngOnInit');
+        this.initSegBarItems();
         this.dummyOrderInitialize();
 
     }
@@ -71,6 +82,13 @@ export class OrdersListComponent implements OnInit {
 
     public filterItemChanged(args) {
         // todo: update showing orders
+    }
+
+    public onSegBarSelectedIndexChange(args) {
+        let segmetedBar = <SegmentedBar>args.object;
+        console.log('Segmented bar selected index changed: ' + (segmetedBar.selectedIndex + 1));
+
+
     }
 
     public showFilterListPicker(args) {
