@@ -2,11 +2,13 @@ import {Component, Input, OnInit, ViewChild} from "@angular/core";
 // import * as elementRegistryModule from 'nativescript-angular/element-registry';
 import {Order} from "../../model/order";
 import * as dialogs from "tns-core-modules/ui/dialogs";
+import {ActionOptions} from "tns-core-modules/ui/dialogs";
 import {ItemEventData} from "tns-core-modules/ui/list-view";
 import {environment} from "../../config/environment";
 import {TextField} from "tns-core-modules/ui/text-field";
-import {ActionOptions} from "tns-core-modules/ui/dialogs";
 import {SegmentedBar, SegmentedBarItem} from "tns-core-modules/ui/segmented-bar";
+import {DrawerTransitionBase, SlideInOnTopTransition} from "nativescript-pro-ui/sidedrawer";
+import {RadSideDrawerComponent} from "nativescript-pro-ui/sidedrawer/angular";
 
 /*elementRegistryModule.registerElement("CardView",
     () => require("nativescript-cardview").CardView);
@@ -34,6 +36,14 @@ export class OrdersListComponent implements OnInit {
 
     @ViewChild("filterTextField") filterTf: TextField;
 
+    /* ***********************************************************
+        * Use the @ViewChild decorator to get a reference to the drawer component.
+        * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
+        *************************************************************/
+    @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
+
+    private _sideDrawerTransition: DrawerTransitionBase;
+
     constructor() {
         console.log('$$$$$$$$  in constructor, to date: ' + this.orders);
     }
@@ -55,9 +65,22 @@ export class OrdersListComponent implements OnInit {
 
     ngOnInit(): void {
         console.log('$$$$$$$ in orders list comp ngOnInit');
+        this._sideDrawerTransition = new SlideInOnTopTransition();
         this.initSegBarItems();
         this.dummyOrderInitialize();
 
+    }
+
+    get sideDrawerTransition(): DrawerTransitionBase {
+        return this._sideDrawerTransition;
+    }
+
+    /* ***********************************************************
+    * According to guidelines, if you have a drawer on your page, you should always
+    * have a button that opens it. Use the showDrawer() function to open the app drawer section.
+    *************************************************************/
+    onDrawerButtonTap(): void {
+        this.drawerComponent.sideDrawer.showDrawer();
     }
 
     onOrderTap(args: ItemEventData): void {
@@ -91,6 +114,7 @@ export class OrdersListComponent implements OnInit {
 
     onMainMenuTap(): void {
         console.log('$$$$$$$$$$$$$$ Main menu tapped.')
+        this.drawerComponent.sideDrawer.showDrawer();
         /*this.routerExtensions.navigate(['main-menu'], {
             transition: {
                 name: "slideTop"
@@ -100,7 +124,7 @@ export class OrdersListComponent implements OnInit {
 
     public showFilterListPicker(args) {
 
-        var options:ActionOptions = {
+        var options: ActionOptions = {
             message: "Select Filter",
             cancelButtonText: "Cancel",
             actions: this.filterOnProps
