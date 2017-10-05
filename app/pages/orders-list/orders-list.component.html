@@ -1,3 +1,10 @@
+<ActionBar class="action-bar">
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onMainMenuTap()"></NavigationButton>
+    <ActionItem icon="res://navigation/menu" (tap)="onMainMenuTap()"
+                ios.position="left" android:visibility="collapsed">
+    </ActionItem>
+    <Label class="action-bar-title" text="Orders"></Label>
+</ActionBar>
 <StackLayout padding="10dpi" class="form">
 
     <SegmentedBar [items]="segBarItems" selectedIndex="0"
@@ -28,7 +35,6 @@
             </CardView>
         </ng-template>
     </ListView>
-    <!--<Label text="$$$$$$$$$$$$$$$$$$$$$$$$ hello"></Label>-->
 
 </StackLayout>
 

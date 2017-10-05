@@ -35,8 +35,6 @@ export class OrdersListComponent implements OnInit {
     @ViewChild("filterTextField") filterTf: TextField;
 
     constructor() {
-        console.log('$$$$$$$$  in constructor, from date: ' + this.fromDate);
-        console.log('$$$$$$$$  in constructor, to date: ' + this.toDate);
         console.log('$$$$$$$$  in constructor, to date: ' + this.orders);
     }
 
@@ -89,6 +87,15 @@ export class OrdersListComponent implements OnInit {
         console.log('Segmented bar selected index changed: ' + (segmetedBar.selectedIndex + 1));
 
 
+    }
+
+    onMainMenuTap(): void {
+        console.log('$$$$$$$$$$$$$$ Main menu tapped.')
+        /*this.routerExtensions.navigate(['main-menu'], {
+            transition: {
+                name: "slideTop"
+            }
+        });*/
     }
 
     public showFilterListPicker(args) {
