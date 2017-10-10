@@ -38,12 +38,43 @@
                 <ng-template let-item="item" let-odd="odd" let-even="even">
                     <CardView radius="15" class="cardStyle" >
                         <StackLayout id="cardItemsStack" orientation="vertical" [class.odd]="odd" [class.even]="even">
-                            <Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
+                            <!--<Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
                             <Label [text]="'Order status: ' + getOrderStatus(item)"></Label>
                             <Label [text]="'Order date: ' + (item.orderDate | date:'EEEE, MMM d, y')"></Label>
                             <Label [text]="'Pickup date: ' + (item.pickupDate | date:'EEEE, MMM d, y')"></Label>
                             <Label [text]="item.city"></Label>
-                            <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk sdfe hfsd skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>
+                            <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk sdfe hfsd skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>-->
+                            <GridLayout rows="auto" columns="*, 3*" backgroundColor="#a52a2a"
+                                        borderColor="#7fffd4" horizontalAlignment="stretch"
+                                        borderRadius="10" borderWidth="4" margin="0 10 0 10" padding="15">
+
+                                <StackLayout col="1" row="0" backgroundColor="#faebd7"
+                                              padding="15" borderRadius="5">
+                                    <Label text="Wal-Mart - 2342332222"></Label>
+                                    <Label text="Order Date: 5 Oct 2017"></Label>
+                                    <Label text="Pickup Date: 15 Oct 2017"></Label>
+                                    <Label text="City: salt lake city, UTAH"></Label>
+                                    <Label text="City: salt lake city, UTAH"></Label>
+                                    <Label text="City: salt lake city, UTAH"></Label>
+                                    <Label text="City: salt lake city, UTAH"></Label>
+                                    <Label text="City: salt lake city, UTAH"></Label>
+                                    <Label text="City: salt lake city, UTAH"></Label>
+                                    <Label text="City: salt lake city, UTAH"></Label>
+                                </StackLayout>
+
+                                <GridLayout col="0" row="0" rows="*,*" columns="*" verticalAlignment="stretch"
+                                            backgroundColor="#6495ed">
+
+                                    <Image src="{{getIconSource('metal', 'metal')}}"
+                                           row="0"
+                                           backgroundColor="black" stretch="fill"></Image>
+                                    <Label text="hello asdfg"
+                                           backgroundColor="aqua" row="1" color="black"
+                                           textWrap="true"></Label>
+
+                                </GridLayout>
+
+                            </GridLayout>
                         </StackLayout>
                     </CardView>
                 </ng-template>

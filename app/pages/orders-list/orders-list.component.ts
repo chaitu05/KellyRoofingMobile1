@@ -9,6 +9,7 @@ import {TextField} from "tns-core-modules/ui/text-field";
 import {SegmentedBar, SegmentedBarItem} from "tns-core-modules/ui/segmented-bar";
 import {DrawerTransitionBase, SlideInOnTopTransition} from "nativescript-pro-ui/sidedrawer";
 import {RadSideDrawerComponent} from "nativescript-pro-ui/sidedrawer/angular";
+import {isAndroid} from "tns-core-modules/platform";
 
 /*elementRegistryModule.registerElement("CardView",
     () => require("nativescript-cardview").CardView);
@@ -100,6 +101,11 @@ export class OrdersListComponent implements OnInit {
             (order.orderConfirmations[0].priorDays > 1 ? "day " : "days " + "prior");
 
     };
+
+    getIconSource(icon: string, iosDir: string): string {
+        console.log('in icon source');
+        return isAndroid ? "res://" + icon : "res://" + iosDir + "/" + icon;
+    }
 
     public filterItemChanged(args) {
         // todo: update showing orders

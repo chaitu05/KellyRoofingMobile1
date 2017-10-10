@@ -1,7 +1,7 @@
-@import '~nativescript-theme-core/scss/sky';
+@import '../../../node_modules/nativescript-theme-core/scss/sky';
 @import '../../app-variables';
 
-.page-content {
+/*.page-content {
     .page-placeholder {
         color: $page-icon-color;
         //font-size: $page-content-placeholder-font-size;
@@ -72,6 +72,6 @@ $order-even-bg-color: #d1e1f9;
     border-color: $sky;
     font-size: 15dpi;
     padding: 5dpi;
-}
+}*/
 
 
