@@ -26,39 +26,29 @@
     <Image src="{{getIconSource('metal', 'metal')}}" row="0" margin="0" backgroundColor="black"></Image>
     <Label text="hello asdfg asdfg asdfg asdfg asdfg asdfg" backgroundColor="#a52a2a" row="1" color="black" textWrap="true"></Label>
 </GridLayout>-->
-<StackLayout backgroundColor="#d2691e">
-<GridLayout rows="auto" columns="*, 3*" backgroundColor="#a52a2a"
-            borderColor="#7fffd4"
-            borderRadius="10" borderWidth="4" margin="0 10 0 10">
+<StackLayout backgroundColor="#d2691e" horizontalAlignment="center" verticalAlignment="center">
 
-    <StackLayout col="1" row="0" backgroundColor="#faebd7"
-                 margin="5" padding="5" borderRadius="5">
-        <Label text="Wal-Mart - 2342332222"></Label>
-        <Label text="Order Date: 5 Oct 2017"></Label>
-        <Label text="Pickup Date: 15 Oct 2017"></Label>
-        <Label text="City: salt lake city, UTAH"></Label>
-        <Label text="City: salt lake city, UTAH"></Label>
-        <Label text="City: salt lake city, UTAH"></Label>
-        <Label text="City: salt lake city, UTAH"></Label>
-        <Label text="City: salt lake city, UTAH"></Label>
-        <Label text="City: salt lake city, UTAH"></Label>
-        <Label text="City: salt lake city, UTAH"></Label>
-    </StackLayout>
-
-    <GridLayout col="0" rows="*, *"
-                verticalAlignment="stretch"
-                backgroundColor="#6495ed" margin="5" padding="5">
-
-        <Image src="{{getIconSource('metal', 'metal')}}" row="0" margin="10"
-               backgroundColor="black" stretch="fill" verticalAlignment="stretch"></Image>
-        <Label text="hello  asdfg" verticalAlignment="stretch"
-               backgroundColor="aqua" row="1" color="black"
-               textWrap="true"></Label>
-
+    <GridLayout columns="*, 3*" rows="auto">
+        <GridLayout rows="*,*" col="0" margin="15">
+            <Image src="{{getIconSource('metal', 'metal')}}" stretch="fill" row="0" backgroundColor="#6495ed"></Image>
+            <Label text="Label 1" textWrap="true" row="1" backgroundColor="#bdb76b"></Label>
+        </GridLayout>
+        <StackLayout col="1" backgroundColor="#f5f5dc" margin="15" padding="15">
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+        </StackLayout>
     </GridLayout>
 
-</GridLayout>
-    </StackLayout>
+</StackLayout>
 
 <!--<GridLayout rows="auto, auto, auto, auto, auto, auto" columns="3*, *" backgroundColor="#6495ed">
 

@@ -7,16 +7,11 @@
 </ActionBar>
 
 <RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">
-    <!--
-    Use the tkDrawerContent directive to display the content of the app drawer on this page.
-    -->
+
     <StackLayout tkDrawerContent>
         <SideDrawer [selectedPage]="'Home'"></SideDrawer>
     </StackLayout>
 
-    <!--
-    Use the tkMainContent directive to display the content of the page when you have an app drawer.
-    -->
     <GridLayout class="page-content" tkMainContent>
         <StackLayout padding="10dpi" class="form">
 
@@ -37,94 +32,47 @@
             <ListView [items]="orders" (itemTap)="onOrderTap($event)" separatorColor="white">
                 <ng-template let-item="item" let-odd="odd" let-even="even">
                     <CardView radius="15" class="cardStyle" >
-                        <StackLayout id="cardItemsStack" orientation="vertical" [class.odd]="odd" [class.even]="even">
-                            <!--<Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
-                            <Label [text]="'Order status: ' + getOrderStatus(item)"></Label>
-                            <Label [text]="'Order date: ' + (item.orderDate | date:'EEEE, MMM d, y')"></Label>
-                            <Label [text]="'Pickup date: ' + (item.pickupDate | date:'EEEE, MMM d, y')"></Label>
-                            <Label [text]="item.city"></Label>
-                            <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk sdfe hfsd skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>-->
-                            <GridLayout rows="auto" columns="*, 3*" backgroundColor="#a52a2a"
-                                        borderColor="#7fffd4" horizontalAlignment="stretch"
-                                        borderRadius="10" borderWidth="4" margin="0 10 0 10" padding="15">
 
-                                <StackLayout col="1" row="0" backgroundColor="#faebd7"
-                                              padding="15" borderRadius="5">
-                                    <Label text="Wal-Mart - 2342332222"></Label>
-                                    <Label text="Order Date: 5 Oct 2017"></Label>
-                                    <Label text="Pickup Date: 15 Oct 2017"></Label>
-                                    <Label text="City: salt lake city, UTAH"></Label>
-                                    <Label text="City: salt lake city, UTAH"></Label>
-                                    <Label text="City: salt lake city, UTAH"></Label>
-                                    <Label text="City: salt lake city, UTAH"></Label>
-                                    <Label text="City: salt lake city, UTAH"></Label>
-                                    <Label text="City: salt lake city, UTAH"></Label>
-                                    <Label text="City: salt lake city, UTAH"></Label>
-                                </StackLayout>
+                            <StackLayout id="cardItemsStack" [class.odd]="odd" [class.even]="even" horizontalAlignment="center" verticalAlignment="center">
 
-                                <GridLayout col="0" row="0" rows="*,*" columns="*" verticalAlignment="stretch"
-                                            backgroundColor="#6495ed">
+                                <GridLayout columns="*, 3*" rows="auto, auto, auto, auto, auto, auto">
 
-                                    <Image src="{{getIconSource('metal', 'metal')}}"
-                                           row="0"
-                                           backgroundColor="black" stretch="fill"></Image>
-                                    <Label text="hello asdfg"
-                                           backgroundColor="aqua" row="1" color="black"
-                                           textWrap="true"></Label>
+                                    <Image src="{{getIconSource('metal', 'metal')}}" stretch="fill" rowSpan="3" col="0" row="0"
+                                           marginBottom="2" backgroundColor="#6495ed"></Image>
+
+                                    <!--<StackLayout backgroundColor="#bdb76b" rowSpan="3" col="0" row="3" marginTop="2">-->
+                                        <Label  backgroundColor="#bdb76b" rowSpan="3" col="0" row="3" marginTop="2" text="Status is Ordered" textWrap="true" stretch="fill"></Label>
+                                    <!--</StackLayout>-->
+                                    <StackLayout id="labelStackId" col="1" row="0" rowSpan="6" backgroundColor="#f5f5dc" padding="15">
+                                        <Label text="Label 1Label 1Label 1Label 1Label 1Label 1Label 1Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                        <Label text="Label 1" textWrap="true"></Label>
+                                    </StackLayout>
 
                                 </GridLayout>
 
-                            </GridLayout>
-                        </StackLayout>
+
+                            </StackLayout>
                     </CardView>
                 </ng-template>
             </ListView>
 
         </StackLayout>
-        <!--<Label class="page-icon fa" text="&#xf005;"></Label>
-        <Label class="page-placeholder" text="&lt;!&ndash; Page content goes here &ndash;&gt;"></Label>-->
+
     </GridLayout>
 </RadSideDrawer>
 
-
-
-<!--
-<ActionBar class="action-bar">
-    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onMainMenuTap()"></NavigationButton>
-    <ActionItem icon="res://navigation/menu" (tap)="onMainMenuTap()"
-                ios.position="left" android:visibility="collapsed">
-    </ActionItem>
-    <Label class="action-bar-title" text="Orders"></Label>
-</ActionBar>
-<StackLayout padding="10dpi" class="form">
-
-    <SegmentedBar [items]="segBarItems" selectedIndex="0"
-                  (selectedIndexChange)="onSegBarSelectedIndexChange($event)" class="m-5"></SegmentedBar>
-    <GridLayout columns="auto, auto, *" rows="auto" horizontalAlignment="center"
-                verticalAlignment="center" >
-        <Label text="Filter on: " verticalAlignment="center" col="0"></Label>
-        <Button [text]="selectedFilterProp" (tap)="showFilterListPicker($event)" col="1"
-                class="btn btn-outline btn-rounded-sm"
-                verticalAlignment="center"></Button>
-        <TextField #filterTextField hint="Enter filter text"
-                   text="" verticalAlignment="center" col="2"
-                   class="input input-rounded"
-                   isEnabled="{{selectedFilterProp !== emptyFilterProp }}"></TextField>
-    </GridLayout>
-
-    <ListView [items]="orders" (itemTap)="onOrderTap($event)" separatorColor="white">
-        <ng-template let-item="item" let-odd="odd" let-even="even">
-            <CardView radius="15" class="cardStyle" >
-                <StackLayout id="cardItemsStack" orientation="vertical" [class.odd]="odd" [class.even]="even">
-                    <Label [text]="item.jobName + '-' + item.purchOrderNum"></Label>
-                    <Label [text]="'Order status: ' + getOrderStatus(item)"></Label>
-                    <Label [text]="'Order date: ' + (item.orderDate | date:'EEEE, MMM d, y')"></Label>
-                    <Label [text]="'Pickup date: ' + (item.pickupDate | date:'EEEE, MMM d, y')"></Label>
-                    <Label [text]="item.city"></Label>
-                    <Label textWrap="true" text="skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk sdfe hfsd skjlahdfkasjhfdk akjlshdfl ka akjsdhfk lasjfhdk hfsd"></Label>
-                </StackLayout>
-            </CardView>
-        </ng-template>
-    </ListView>
-
-</StackLayout>-->
