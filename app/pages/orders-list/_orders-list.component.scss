@@ -4,7 +4,6 @@
 .page-content {
     .page-placeholder {
         color: $page-icon-color;
-        //font-size: $page-content-placeholder-font-size;
         vertical-align: center;
         horizontal-align: center;
     }
@@ -30,16 +29,11 @@ $order-even-bg-color: #d1e1f9;
 }
 
 #cardItemsStack {
-    //margin: 2dpi;
     padding: 10dpi;
 }
 
 .cardStyle {
-    //background-color: #9e9e9e;
-    //background-color: #3489db;
-    //color: #fff;
     margin: 5dpi;
-    //padding: 10dpi;
 }
 
 .form {

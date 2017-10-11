@@ -33,34 +33,40 @@
                 <ng-template let-item="item" let-odd="odd" let-even="even">
                     <CardView radius="15" class="cardStyle" >
 
-                            <StackLayout id="cardItemsStack" [class.odd]="odd" [class.even]="even" horizontalAlignment="center" verticalAlignment="center">
+                            <StackLayout id="cardItemsStack" [class.odd]="odd" [class.even]="even"
+                                         horizontalAlignment="center" verticalAlignment="center">
 
                                 <GridLayout columns="*, 3*" rows="auto, auto, auto, auto, auto, auto">
 
-                                    <Image src="{{getIconSource('metal', 'metal')}}" stretch="fill" rowSpan="3" col="0" row="0"
+                                    <Image src="{{getIconSource(item.materialType, item.materialType)}}"
+                                           stretch="fill" rowSpan="3" col="0" row="0"
                                            marginBottom="2" backgroundColor="#6495ed"></Image>
 
-                                    <!--<StackLayout backgroundColor="#bdb76b" rowSpan="3" col="0" row="3" marginTop="2">-->
-                                        <Label  backgroundColor="#bdb76b" rowSpan="3" col="0" row="3" marginTop="2" text="Status is Ordered" textWrap="true" stretch="fill"></Label>
-                                    <!--</StackLayout>-->
-                                    <StackLayout id="labelStackId" col="1" row="0" rowSpan="6" backgroundColor="#f5f5dc" padding="15">
-                                        <Label text="Label 1Label 1Label 1Label 1Label 1Label 1Label 1Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
-                                        <Label text="Label 1" textWrap="true"></Label>
+                                    <Label backgroundColor="#bdb76b" rowSpan="3" col="0" row="3" marginTop="2"
+                                           text="Status is Ordered" textWrap="true" stretch="fill"></Label>
+
+                                    <StackLayout id="labelStackId" col="1" row="0" rowSpan="6" padding="10">
+
+                                        <Label text="{{item.jobName + '-' + item.salesOrderNum}}" textWrap="true"
+                                               horizontalAlignment="center"
+                                               class="h2" style="text-decoration: underline;"></Label>
+                                        <Label text="{{'Status: ' + getOrderStatus(item)}}" class="m-b-5" textWrap="true"></Label>
+                                        <Label textWrap="true">
+                                            <FormattedString>
+                                                <Span text="Order Date: " fontWeight="Bold"></Span>
+                                                <Span text="{{item.orderDate | date:'medium'}}"></Span>
+                                            </FormattedString>
+                                        </Label>
+                                        <Label textWrap="true" class="m-b-5" >
+                                            <FormattedString>
+                                                <Span text="Pickup Date: " fontWeight="Bold"></Span>
+                                                <Span text="{{item.pickupDate | date:'medium'}}"></Span>
+                                            </FormattedString>
+                                        </Label>
+                                        <Label text="City: {{item.city}}" textWrap="true"></Label>
+                                        <Label text="Purchase Order#: {{item.purchOrderNum}}" textWrap="true"></Label>
+                                        <!--<Label text="Pickup Date: {{item.pickupDate | date:'medium'}}" textWrap="true"></Label>-->
+
                                     </StackLayout>
 
                                 </GridLayout>

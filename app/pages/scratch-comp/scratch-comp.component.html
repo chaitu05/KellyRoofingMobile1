@@ -27,13 +27,21 @@
     <Label text="hello asdfg asdfg asdfg asdfg asdfg asdfg" backgroundColor="#a52a2a" row="1" color="black" textWrap="true"></Label>
 </GridLayout>-->
 <StackLayout backgroundColor="#d2691e" horizontalAlignment="center" verticalAlignment="center">
+    <GridLayout columns="*, 3*" rows="auto, auto, auto, auto, auto, auto">
 
-    <GridLayout columns="*, 3*" rows="auto">
-        <GridLayout rows="*,*" col="0" margin="15">
-            <Image src="{{getIconSource('metal', 'metal')}}" stretch="fill" row="0" backgroundColor="#6495ed"></Image>
-            <Label text="Label 1" textWrap="true" row="1" backgroundColor="#bdb76b"></Label>
-        </GridLayout>
-        <StackLayout col="1" backgroundColor="#f5f5dc" margin="15" padding="15">
+        <Image src="res://metal/metal" stretch="fill" rowSpan="3" col="0" row="0"
+               marginBottom="2" backgroundColor="#6495ed"></Image>
+
+        <Label  backgroundColor="#bdb76b" rowSpan="3" col="0" row="3" marginTop="2" text="Status is Ordered"
+               textWrap="true" stretch="fill"></Label>
+        <StackLayout id="labelStackId" col="1" row="0" rowSpan="6" backgroundColor="#f5f5dc" padding="15">
+            <Label text="wal-mart - 2374" textWrap="true" horizontalAlignment="center"
+                   class="h2" style="text-decoration: underline;"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
+            <Label text="Label 1" textWrap="true"></Label>
             <Label text="Label 1" textWrap="true"></Label>
             <Label text="Label 1" textWrap="true"></Label>
             <Label text="Label 1" textWrap="true"></Label>
@@ -46,8 +54,8 @@
             <Label text="Label 1" textWrap="true"></Label>
             <Label text="Label 1" textWrap="true"></Label>
         </StackLayout>
-    </GridLayout>
 
+    </GridLayout>
 </StackLayout>
 
 <!--<GridLayout rows="auto, auto, auto, auto, auto, auto" columns="3*, *" backgroundColor="#6495ed">

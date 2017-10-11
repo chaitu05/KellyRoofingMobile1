@@ -1,4 +1,5 @@
 import {OrderConfirmation} from "./order-confirmation";
+import {MaterialType} from "./material-type";
 
 export class Order {
 
@@ -6,7 +7,7 @@ export class Order {
     salesOrderNum: number;
     licenseNum: number;
     jobName: string;
-    materialType: string; // (ISO, Material, Metal, Skylites)
+    materialType: MaterialType; // (ISO, material, metal, Skylites)
     orderDate: Date;
     pickupDate: Date;
     city: string;
