@@ -29,11 +29,19 @@ $order-even-bg-color: #d1e1f9;
 }
 
 #cardItemsStack {
-    padding: 10dpi;
+    //padding: 5dpi;
 }
 
 .cardStyle {
     margin: 5dpi;
+}
+
+.cardOrderListLabel {
+    font-size: 14dpi;
+}
+
+.hr-dark{
+    background-color: lighten(#303030, 55%);
 }
 
 .form {

@@ -36,37 +36,40 @@
                             <StackLayout id="cardItemsStack" [class.odd]="odd" [class.even]="even"
                                          horizontalAlignment="center" verticalAlignment="center">
 
-                                <GridLayout columns="*, 3*" rows="auto, auto, auto, auto, auto, auto">
+                                <GridLayout columns="*, 3*" rows="auto, auto, auto, auto, auto, auto"
+                                            marginTop="7" marginBottom="7" marginLeft="5">
 
                                     <Image src="{{getIconSource(item.materialType, item.materialType)}}"
                                            stretch="fill" rowSpan="3" col="0" row="0"
-                                           marginBottom="2" backgroundColor="#6495ed"></Image>
+                                           marginBottom="2" backgroundColor="#6495ed" borderRadius="10"></Image>
 
                                     <!--<Label backgroundColor="#bdb76b" rowSpan="3" col="0" row="3" marginTop="2"
                                            text="Status is Ordered" textWrap="true" stretch="fill"></Label>-->
-                                    <Button rowSpan="3" col="0" row="3" marginTop="2"
-                                           text="Pickup Order" textWrap="true"></Button>
+                                    <Button rowSpan="3" col="0" row="3" marginTop="2" backgroundColor="#ffea00" borderRadius="10"
+                                           text="Pickup Order" textWrap="true" padding="5"></Button>
 
-                                    <StackLayout id="labelStackId" col="1" row="0" rowSpan="6" padding="10">
+                                    <StackLayout id="labelStackId" col="1" row="0" rowSpan="6" paddingLeft="10">
 
                                         <Label text="{{item.jobName + '-' + item.salesOrderNum}}" textWrap="true"
                                                horizontalAlignment="center"
-                                               class="h2" style="text-decoration: underline;"></Label>
-                                        <Label text="{{'Status: ' + getOrderStatus(item)}}" class="m-b-5" textWrap="true"></Label>
-                                        <Label textWrap="true">
+                                               class="h2" ></Label>
+                                        <StackLayout class="hr-dark"></StackLayout>
+                                        <Label text="{{'Status: ' + getOrderStatus(item)}}" class="m-b-5 m-t-5 cardOrderListLabel"
+                                               textWrap="true"></Label>
+                                        <Label textWrap="true" class="m-b-5">
                                             <FormattedString>
-                                                <Span text="Order Date: " fontWeight="Bold"></Span>
-                                                <Span text="{{item.orderDate | date:'medium'}}"></Span>
+                                                <Span text="Order Date: " class="cardOrderListLabel"></Span>
+                                                <Span text="{{item.orderDate | date:'medium'}}" class="cardOrderListLabel"></Span>
                                             </FormattedString>
                                         </Label>
-                                        <Label textWrap="true" class="m-b-5" >
+                                        <Label textWrap="true" class="m-b-5">
                                             <FormattedString>
-                                                <Span text="Pickup Date: " fontWeight="Bold"></Span>
-                                                <Span text="{{item.pickupDate | date:'medium'}}"></Span>
+                                                <Span text="Pickup Date: " class="cardOrderListLabel"></Span>
+                                                <Span text="{{item.pickupDate | date:'medium'}}" class="cardOrderListLabel"></Span>
                                             </FormattedString>
                                         </Label>
-                                        <Label text="City: {{item.city}}" textWrap="true"></Label>
-                                        <Label text="Purchase Order#: {{item.purchOrderNum}}" textWrap="true"></Label>
+                                        <Label text="City: {{item.city}}" textWrap="true" class="cardOrderListLabel m-b-5"></Label>
+                                        <Label text="Purchase Order#: {{item.purchOrderNum}}" textWrap="true" class="cardOrderListLabel"></Label>
                                         <!--<Label text="Pickup Date: {{item.pickupDate | date:'medium'}}" textWrap="true"></Label>-->
 
                                     </StackLayout>
