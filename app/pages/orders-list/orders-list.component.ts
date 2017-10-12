@@ -99,12 +99,12 @@ export class OrdersListComponent implements OnInit {
             return "Ordered";
 
         return "Confirmed " + order.orderConfirmations[0].priorDays +
-            (order.orderConfirmations[0].priorDays > 1 ? "day " : "days " + "prior");
+            (order.orderConfirmations[0].priorDays > 1 ? " days " : " day ") + " prior";
 
     };
 
     getCardViewRadius(): number {
-        return isAndroid ? 35  : 10;
+        return isAndroid ? 35 : 10;
     }
 
     getIconSource(icon: string, iosDir: string): string {
@@ -116,11 +116,26 @@ export class OrdersListComponent implements OnInit {
         // todo: update showing orders
     }
 
+    public confirmPickup(args) {
+        let o: Order = args as Order;
+        console.log('Job name: ' + o.jobName + "" +
+            "\nDate string: " + new Date().toLocaleString("en-US"));
+
+        dialogs.confirm({
+            title: "Picking up Order",
+            message: "I am picking up \"" + o.jobName + "-" + o.salesOrderNum
+            + "\" order at " + new Date().toLocaleString(),
+            okButtonText: "Yes",
+            cancelButtonText: "No",
+
+        }).then((result) => {
+            console.log(result)
+        });
+    }
+
     public onSegBarSelectedIndexChange(args) {
         let segmetedBar = <SegmentedBar>args.object;
         console.log('Segmented bar selected index changed: ' + (segmetedBar.selectedIndex + 1));
-
-
     }
 
     onMainMenuTap(): void {
@@ -164,13 +179,13 @@ export class OrdersListComponent implements OnInit {
             purchOrderNum: 12346, salesOrderNum: 3789, licenseNum: 2,
             jobName: 'wal-mart', materialType: MaterialType.material, orderDate: new Date(),
             pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
-            orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
+            orderConfirmations: [{confirmed: true, priorDays: 1, confirmedAt: new Date()},
                 {confirmed: true, priorDays: 1, confirmedAt: new Date()}], isShipped: false
         });
         this.orders.push({
             purchOrderNum: 12347, salesOrderNum: 4789, licenseNum: 2,
             jobName: 'wal-mart', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
+            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
             orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
                 {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
         });
@@ -179,7 +194,7 @@ export class OrdersListComponent implements OnInit {
             jobName: 'Target', materialType: MaterialType.metal, orderDate: new Date(),
             pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
             orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: true, priorDays: 1, confirmedAt: new Date()}], isShipped: false
+                {confirmed: true, priorDays: 1, confirmedAt: new Date()}], isShipped: true
         });
         this.orders.push({
             purchOrderNum: 12349, salesOrderNum: 6789, licenseNum: 2,
