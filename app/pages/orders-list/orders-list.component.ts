@@ -103,6 +103,10 @@ export class OrdersListComponent implements OnInit {
 
     };
 
+    getCardViewRadius(): number {
+        return isAndroid ? 35  : 10;
+    }
+
     getIconSource(icon: string, iosDir: string): string {
         console.log('in icon source');
         return isAndroid ? "res://" + icon : "res://" + iosDir + "/" + icon;

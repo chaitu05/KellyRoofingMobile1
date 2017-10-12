@@ -31,9 +31,9 @@
 
             <ListView [items]="orders" (itemTap)="onOrderTap($event)" separatorColor="white">
                 <ng-template let-item="item" let-odd="odd" let-even="even">
-                    <CardView radius="15" class="cardStyle" >
+                    <CardView radius="{{getCardViewRadius()}}" class="cardStyle" [class.odd]="odd" [class.even]="even">
 
-                            <StackLayout id="cardItemsStack" [class.odd]="odd" [class.even]="even"
+                            <StackLayout id="cardItemsStack"
                                          horizontalAlignment="center" verticalAlignment="center">
 
                                 <GridLayout columns="*, 3*" rows="auto, auto, auto, auto, auto, auto"
