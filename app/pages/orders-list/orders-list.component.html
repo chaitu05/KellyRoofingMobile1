@@ -43,25 +43,46 @@
                                            stretch="fill" rowSpan="3" col="0" row="0"
                                            marginBottom="2" backgroundColor="#6495ed" borderRadius="10"></Image>
 
-                                    <!--<Label backgroundColor="#bdb76b" rowSpan="3" col="0" row="3" marginTop="2"
-                                           text="Status is Ordered" textWrap="true" stretch="fill"></Label>-->
-                                    <Button rowSpan="3" col="0" row="3" marginTop="2" backgroundColor="#ffea00" borderRadius="10"
-                                           text="Pickup Order" textWrap="true" padding="5" (tap)="confirmPickup(item)"></Button>
+                                    <Button *ngIf="item.isPickedOrShipped === true; else notPickedOrShipped"
+                                            rowSpan="3" col="0" row="3" marginTop="2" borderRadius="10"
+                                            backgroundColor="{{getButtonBgColor(item)}}"
+                                            textWrap="true"
+                                            padding="5" (tap)="confirmPickup(item)">
+                                        <FormattedString>
+                                            <Span text="&#xf046;&#x000a;" class="fa span-as-block" fontSize="25"></Span>
+                                            <Span text="{{getButtonStatus(item)}}"></Span>
+                                        </FormattedString>
+                                    </Button>
+
+                                    <ng-template #notPickedOrShipped>
+                                        <Button rowSpan="3" col="0" row="3" marginTop="2" borderRadius="10"
+                                                backgroundColor="{{getButtonBgColor(item)}}"
+                                                textWrap="true"
+                                                padding="5" (tap)="confirmPickup(item)">
+                                            <FormattedString>
+                                                <Span text="&#xf096;&#x000a;" class="fa" fontSize="25"></Span>
+                                                <Span text="{{getButtonStatus(item)}}"></Span>
+                                            </FormattedString>
+                                        </Button>
+                                    </ng-template>
 
                                     <StackLayout id="labelStackId" col="1" row="0" rowSpan="6" paddingLeft="10">
 
-                                        <Label text="{{item.jobName + '-' + item.salesOrderNum}}" textWrap="true"
+                                        <Label text="{{item.jobName + '-' + item.purchOrderNum}}" textWrap="true"
                                                horizontalAlignment="center"
                                                class="h2" ></Label>
+
                                         <StackLayout class="hr-dark"></StackLayout>
-                                        <Label text="{{'Status: ' + getOrderStatus(item)}}" class="m-b-5 m-t-5 cardOrderListLabel"
-                                               textWrap="true"></Label>
-                                        <Label textWrap="true" class="m-b-5">
+
+                                        <Label textWrap="true"
+                                               [ngClass]="{'m-b-1': item.note, 'm-b-5': !item.note, 'm-t-5':true, 'cardOrderListLabel':true}" >
                                             <FormattedString>
-                                                <Span text="Order Date: " class="cardOrderListLabel"></Span>
-                                                <Span text="{{item.orderDate | date:'medium'}}" class="cardOrderListLabel"></Span>
+                                                <Span text="Status: "></Span>
+                                                <Span text="{{getOrderStatus(item)}}" color="{{getOrderStatusColor(item)}}"></Span>
                                             </FormattedString>
                                         </Label>
+                                        <Label *ngIf="item.note" text="{{item.note}}" class="m-b-5 m-l-15 m-r-15 cardOrderListNoteLabel"
+                                               textWrap="true"></Label>
                                         <Label textWrap="true" class="m-b-5">
                                             <FormattedString>
                                                 <Span text="Pickup Date: " class="cardOrderListLabel"></Span>
@@ -69,7 +90,7 @@
                                             </FormattedString>
                                         </Label>
                                         <Label text="City: {{item.city}}" textWrap="true" class="cardOrderListLabel m-b-5"></Label>
-                                        <Label text="Purchase Order#: {{item.purchOrderNum}}" textWrap="true" class="cardOrderListLabel"></Label>
+                                        <Label text="Sales Order#: {{item.salesOrderNum}}" textWrap="true" class="cardOrderListLabel"></Label>
                                         <!--<Label text="Pickup Date: {{item.pickupDate | date:'medium'}}" textWrap="true"></Label>-->
 
                                     </StackLayout>

@@ -24,6 +24,19 @@ $order-even-bg-color: #d1e1f9;
     background-color: $order-odd-bg-color;
 }
 
+.pick-or-del-btn {
+    border-color: $btn-color;
+    border-width: 1dpi;
+    &.btn-active:highlighted {
+        background-color: $btn-color-outline-highlighted;
+    }
+}
+
+.span-as-block {
+    display: block;
+    text-align: center;
+}
+
 .even {
     background-color: $order-even-bg-color;
 }
@@ -40,7 +53,12 @@ $order-even-bg-color: #d1e1f9;
     font-size: 14dpi;
 }
 
-.hr-dark{
+.cardOrderListNoteLabel {
+    font-size: 11dpi;
+    color: lighten(red, 20%);
+}
+
+.hr-dark {
     background-color: lighten(#303030, 55%);
 }
 

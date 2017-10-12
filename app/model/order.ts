@@ -1,5 +1,6 @@
 import {OrderConfirmation} from "./order-confirmation";
 import {MaterialType} from "./material-type";
+import {OrderType} from "./order-type";
 
 export class Order {
 
@@ -8,19 +9,21 @@ export class Order {
     licenseNum: number;
     jobName: string;
     materialType: MaterialType; // (ISO, material, metal, Skylites)
+    orderType: OrderType; // (Delivery or Pickup)
     orderDate: Date;
     pickupDate: Date;
     city: string;
     orderPlaced: boolean;
     orderConfirmations: OrderConfirmation[];
-    isShipped: boolean;
+    isPickedOrShipped: boolean;
+    note?: string;
     // orderStatus: string; // ordered, confirmed 4 days prior, confirmed 1 day prior, shipped
     // shippedDate: Date;
     // orderStatus:string;
 
     /*public orderStatus():string {
 
-        if (this.isShipped)
+        if (this.isPickedOrShipped)
             return "Shipped";
         else if (!this.orderPlaced)
             return "Not-Ordered";
@@ -44,7 +47,8 @@ export class Order {
         + "\nCity = " + this.city
         + "\nOrder Placed = " + this.orderPlaced
         + "\nOrder Confirmations = " + this.orderConfirmations
-        + "\nOrder Shipped = " + this.isShipped
+        + "\nOrder Shipped = " + this.isPickedOrShipped
+        + "\nNote = " + this.note
             })`
     }
 

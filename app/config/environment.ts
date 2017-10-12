@@ -18,5 +18,15 @@ export const environment = {
 	SelectFilterProp : "Select",
 	NoFilterProp : "No Filter",
 	filterOnProps : ["No Filter", "Job Name", "Purchase Order#", "City", "Sales Order#"],
+	PickUp : "Pick up",
+	Deliver : "Deliver",
+	OrderPickedUp : "Picked up",
+	OrderDelivered : "Delivered",
+	OrderConfirmedb44day : "Confirmed 4 days prior",
+	OrderConfirmedb41day : "Confirmed 1 day prior",
+	OrderOrdered : "Ordered",
+	OrderNotOrdered : "Not-Ordered",
+	skyColor : "#30bcff",
+	lightenedSkyColor : "#87d9ff",
 
 }

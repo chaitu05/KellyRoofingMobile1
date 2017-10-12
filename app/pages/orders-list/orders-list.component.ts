@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
 // import * as elementRegistryModule from 'nativescript-angular/element-registry';
 import {Order} from "../../model/order";
-import {MaterialType} from "../../model/material-type";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import {ActionOptions} from "tns-core-modules/ui/dialogs";
 import {ItemEventData} from "tns-core-modules/ui/list-view";
@@ -11,6 +10,8 @@ import {SegmentedBar, SegmentedBarItem} from "tns-core-modules/ui/segmented-bar"
 import {DrawerTransitionBase, SlideInOnTopTransition} from "nativescript-pro-ui/sidedrawer";
 import {RadSideDrawerComponent} from "nativescript-pro-ui/sidedrawer/angular";
 import {isAndroid} from "tns-core-modules/platform";
+import {OrdersListService} from "./orders-list.service";
+import {OrderType} from "../../model/order-type";
 
 /*elementRegistryModule.registerElement("CardView",
     () => require("nativescript-cardview").CardView);
@@ -46,7 +47,7 @@ export class OrdersListComponent implements OnInit {
 
     private _sideDrawerTransition: DrawerTransitionBase;
 
-    constructor() {
+    constructor(private olService: OrdersListService) {
         console.log('$$$$$$$$  in constructor, to date: ' + this.orders);
     }
 
@@ -68,7 +69,10 @@ export class OrdersListComponent implements OnInit {
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this.initSegBarItems();
-        this.dummyOrderInitialize();
+        // this.dummyOrderInitialize();
+        this.olService.getOrders(null).then(orders => {
+            this.orders = orders;
+        });
         console.log('$$$$$$$ in orders list comp ngOnInit: ' + this.orders.length);
 
     }
@@ -89,19 +93,65 @@ export class OrdersListComponent implements OnInit {
         console.log('$$$$$$$$$ Item tapped: ' + args);
     }
 
-    public getOrderStatus(order: Order): string {
+    getOrderStatus(order: Order): string {
 
-        if (order.isShipped)
-            return "Shipped";
+        if (order.isPickedOrShipped) {
+            return order.orderType === OrderType.Pickup ? environment.OrderPickedUp : environment.OrderDelivered;
+        }
         else if (!order.orderPlaced)
-            return "Not-Ordered";
+            return environment.OrderNotOrdered;
         else if (order.orderConfirmations.length == 0 && order.orderPlaced)
-            return "Ordered";
+            return environment.OrderOrdered;
 
         return "Confirmed " + order.orderConfirmations[0].priorDays +
-            (order.orderConfirmations[0].priorDays > 1 ? " days " : " day ") + " prior";
+            (order.orderConfirmations[0].priorDays > 1 ? " days" : " day") + " prior";
 
     };
+
+    getOrderStatusColor(order: Order): string {
+
+        let status = this.getOrderStatus(order);
+
+        if (status === environment.OrderConfirmedb41day)
+            return environment.skyColor;
+        else if (status === environment.OrderConfirmedb44day)
+            return "#d261f9";
+        else if (status === environment.OrderPickedUp || status === environment.OrderDelivered)
+            return "green";
+        else if (status === environment.OrderNotOrdered)
+            return "red";
+        else if (status === environment.OrderOrdered)
+            return "#ff8330";
+
+        return "red";
+    }
+
+    getButtonStatus(order: Order): string {
+
+        let status = this.getOrderStatus(order);
+
+        if (status === environment.OrderPickedUp)
+            return environment.OrderPickedUp;
+        else if (status === environment.OrderDelivered)
+            return environment.OrderDelivered;
+
+        else {
+            if (order.orderType === OrderType.Pickup)
+                return environment.PickUp;
+            else
+                return environment.Deliver;
+        }
+
+    }
+
+    getButtonBgColor(order: Order): string {
+
+        if(order.isPickedOrShipped)
+            return "#7cc17c";
+        else
+            return environment.lightenedSkyColor;
+
+    }
 
     getCardViewRadius(): number {
         return isAndroid ? 35 : 10;
@@ -164,471 +214,6 @@ export class OrdersListComponent implements OnInit {
                 this.selectedFilterProp = result;
                 this.filterTf.focus();
             }
-        });
-    }
-
-    private dummyOrderInitialize() {
-        this.orders.push({
-            purchOrderNum: 12345, salesOrderNum: 2789, licenseNum: 2,
-            jobName: 'wal-mart', materialType: MaterialType.fibreglass, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
-            orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false,
-        });
-        this.orders.push({
-            purchOrderNum: 12346, salesOrderNum: 3789, licenseNum: 2,
-            jobName: 'wal-mart', materialType: MaterialType.material, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
-            orderConfirmations: [{confirmed: true, priorDays: 1, confirmedAt: new Date()},
-                {confirmed: true, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 12347, salesOrderNum: 4789, licenseNum: 2,
-            jobName: 'wal-mart', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 12348, salesOrderNum: 5789, licenseNum: 2,
-            jobName: 'Target', materialType: MaterialType.metal, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
-            orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: true, priorDays: 1, confirmedAt: new Date()}], isShipped: true
-        });
-        this.orders.push({
-            purchOrderNum: 12349, salesOrderNum: 6789, licenseNum: 2,
-            jobName: 'Target', materialType: MaterialType.material, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
-            orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 22345, salesOrderNum: 7789, licenseNum: 2,
-            jobName: 'Smiths', materialType: MaterialType.metal, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
-            orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: true, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 22345, salesOrderNum: 8789, licenseNum: 2,
-            jobName: 'Smiths', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 22345, salesOrderNum: 9789, licenseNum: 2,
-            jobName: 'Smiths', materialType: MaterialType.fibreglass, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
-            orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: true, priorDays: 1, confirmedAt: new Date()}], isShipped: true
-        });
-        this.orders.push({
-            purchOrderNum: 22345, salesOrderNum: 10789, licenseNum: 2,
-            jobName: 'Smiths', materialType: MaterialType.fibreglass, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 32345, salesOrderNum: 100789, licenseNum: 2,
-            jobName: 'Sams club', materialType: MaterialType.metal, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 42345, salesOrderNum: 110789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.material, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 62345, salesOrderNum: 130789, licenseNum: 2,
-            jobName: 'Lees', materialType: MaterialType.fibreglass, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
-        });
-        this.orders.push({
-            purchOrderNum: 52345, salesOrderNum: 120789, licenseNum: 2,
-            jobName: 'Costco', materialType: MaterialType.skylites, orderDate: new Date(),
-            pickupDate: new Date(), city: 'Salt lake', orderPlaced: false,
-            orderConfirmations: [{confirmed: false, priorDays: 4, confirmedAt: new Date()},
-                {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isShipped: false
         });
     }
 
