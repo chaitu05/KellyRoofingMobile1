@@ -3,7 +3,7 @@
     <ActionItem icon="res://navigation/menu" (tap)="onMainMenuTap()"
                 ios.position="left" android:visibility="collapsed">
     </ActionItem>
-    <Label class="action-bar-title" text="Orders"></Label>
+    <Label class="action-bar-title" [text]="title"></Label>
 </ActionBar>
 
 <RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">

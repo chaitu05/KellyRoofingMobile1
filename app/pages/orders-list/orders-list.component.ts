@@ -31,6 +31,8 @@ export class OrdersListComponent implements OnInit {
     // @Input() ordersFromTab: Array<Order>;
     public orders: Array<Order> = [];
     public segBarItems: Array<SegmentedBarItem> = [];
+    public title: string = "";
+    public orderStr: string = " Orders";
 
     public emptyFilterProp = environment.SelectFilterProp;
     public selectedFilterProp = this.emptyFilterProp;
@@ -56,6 +58,7 @@ export class OrdersListComponent implements OnInit {
         const today = new SegmentedBarItem();
         today.title = "Today";
         this.segBarItems.push(today);
+        this.title = today.title + this.orderStr;
 
         const tomorrow = new SegmentedBarItem();
         tomorrow.title = "Tomorrow";
@@ -185,7 +188,8 @@ export class OrdersListComponent implements OnInit {
 
     public onSegBarSelectedIndexChange(args) {
         let segmetedBar = <SegmentedBar>args.object;
-        console.log('Segmented bar selected index changed: ' + (segmetedBar.selectedIndex + 1));
+        this.title = segmetedBar.items[segmetedBar.selectedIndex].title + this.orderStr;
+        console.log('Segmented bar selected index changed: ' + (segmetedBar.selectedIndex) + "\nTitle: " + this.title);
     }
 
     onMainMenuTap(): void {
