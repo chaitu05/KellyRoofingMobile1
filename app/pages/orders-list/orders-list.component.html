@@ -29,7 +29,7 @@
                            isEnabled="{{selectedFilterProp !== emptyFilterProp }}"></TextField>
             </GridLayout>
 
-            <ListView [items]="orders" (itemTap)="onOrderTap($event)" separatorColor="white">
+            <ListView [items]="orders" separatorColor="white">
                 <ng-template let-item="item" let-odd="odd" let-even="even">
                     <CardView radius="{{getCardViewRadius()}}" class="cardStyle" [class.odd]="odd" [class.even]="even">
 
@@ -43,24 +43,28 @@
                                            stretch="fill" rowSpan="3" col="0" row="0"
                                            marginBottom="2" backgroundColor="#6495ed" borderRadius="10"></Image>
 
+                                    <!--<Button rowSpan="3" col="0" row="3" marginTop="2" borderRadius="10"
+                                            backgroundColor="{{getButtonBgColor(item)}}"
+                                            textWrap="true" text="{{getButtonStatus(item)}}"
+                                            padding="5" (tap)="confirmPickup(item)" >
+                                    </Button>-->
+
                                     <Button *ngIf="item.isPickedOrShipped === true; else notPickedOrShipped"
                                             rowSpan="3" col="0" row="3" marginTop="2" borderRadius="10"
-                                            backgroundColor="{{getButtonBgColor(item)}}"
-                                            textWrap="true"
-                                            padding="5" (tap)="confirmPickup(item)">
+                                            backgroundColor="{{getButtonBgColor(item)}}" textWrap="true"
+                                            padding="5" (tap)="confirmPickup(item)" class="pick-or-del-btn">
                                         <FormattedString>
-                                            <Span text="&#xf046;&#x000a;" class="fa span-as-block" fontSize="25"></Span>
+                                            <Span text="&#xf046;&#x000a;" class="fa"></Span>
                                             <Span text="{{getButtonStatus(item)}}"></Span>
                                         </FormattedString>
                                     </Button>
 
                                     <ng-template #notPickedOrShipped>
                                         <Button rowSpan="3" col="0" row="3" marginTop="2" borderRadius="10"
-                                                backgroundColor="{{getButtonBgColor(item)}}"
-                                                textWrap="true"
-                                                padding="5" (tap)="confirmPickup(item)">
+                                                backgroundColor="{{getButtonBgColor(item)}}" textWrap="true"
+                                                padding="5" (tap)="confirmPickup(item)" class="pick-or-del-btn">
                                             <FormattedString>
-                                                <Span text="&#xf096;&#x000a;" class="fa" fontSize="25"></Span>
+                                                <Span text="&#xf096;&#x000a;" class="fa"></Span>
                                                 <Span text="{{getButtonStatus(item)}}"></Span>
                                             </FormattedString>
                                         </Button>

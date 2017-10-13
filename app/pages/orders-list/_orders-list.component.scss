@@ -25,11 +25,7 @@ $order-even-bg-color: #d1e1f9;
 }
 
 .pick-or-del-btn {
-    border-color: $btn-color;
-    border-width: 1dpi;
-    &.btn-active:highlighted {
-        background-color: $btn-color-outline-highlighted;
-    }
+    text-align: center;
 }
 
 .span-as-block {
