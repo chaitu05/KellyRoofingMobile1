@@ -1,10 +1,10 @@
-/** 
- * Please don't add to this file. 
+/**
+ * Please don't add to this file.
  * This file gets GENERATED automatically.
- * Please add properties to config/env.common.properties or 
- *	config/environment specific file. 
+ * Please add properties to config/env.common.properties or
+ *	config/environment specific file.
  * Properties in env.common.properties can be overridden in environment
- * specific file. 
+ * specific file.
  **/
 export const environment = {
 
@@ -28,5 +28,6 @@ export const environment = {
 	OrderNotOrdered : "Not-Ordered",
 	skyColor : "#30bcff",
 	lightenedSkyColor : "#87d9ff",
+    // lightenedSkyColor : "#f0ffff",
 
 }
