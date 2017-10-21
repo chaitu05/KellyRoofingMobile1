@@ -20,6 +20,7 @@
 //$order-odd-bg-color: #f2f2f2;
 $order-odd-bg-color: #f2f2f2;
 $order-even-bg-color: #f0ffff;
+$marginFilterAndCards: 5dpi;
 //$order-even-bg-color: #d1e1f9;
 //$order-even-bg-color: #f2f2f2;
 
@@ -36,6 +37,11 @@ $order-even-bg-color: #f0ffff;
     text-align: center;
 }
 
+.segbar-style {
+    text-transform: lowercase;
+    font-size: 13dpi;
+}
+
 .even {
     background-color: $order-even-bg-color;
 }
@@ -44,8 +50,12 @@ $order-even-bg-color: #f0ffff;
     //padding: 5dpi;
 }
 
+.filter-grid {
+    margin: $marginFilterAndCards;
+}
+
 .cardStyle {
-    margin: 5dpi;
+    margin: $marginFilterAndCards;
 }
 
 .cardOrderListLabel {
@@ -57,14 +67,15 @@ $order-even-bg-color: #f0ffff;
     color: lighten(red, 20%);
 }
 
-.hr-dark {
+/*.hr-dark {
     background-color: lighten(#303030, 55%);
-}
+}*/
 
 .form {
 
     .input {
         padding: 4 4 4 4;
+        height: 36dpi;
         background-color: transparent;
 
         &.input-border {
@@ -78,7 +89,8 @@ $order-even-bg-color: #f0ffff;
             border-width: 1;
             border-color: $grey;
             border-radius: 5;
-            padding: 8dpi;
+            padding-left: 8dpi;
+            font-size: 14dpi;
         }
 
         &[isEnabled='false'] {
@@ -110,7 +122,13 @@ $order-even-bg-color: #f0ffff;
 .btn-rounded-sm {
     color: $sky;
     border-color: $sky;
-    font-size: 15dpi;
-    padding: 5dpi;
+    font-size: 13dpi;
+    padding: 3dpi;
+    margin-left: 8dpi;
+    margin-right: 0dpi;
+}
+
+.btn-outline {
+    //height: auto;
 }
 

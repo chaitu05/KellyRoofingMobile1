@@ -1,5 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from "@angular/core";
-// import * as elementRegistryModule from 'nativescript-angular/element-registry';
+import {Component, Input, OnInit, ViewChild, ViewContainerRef} from "@angular/core";
 import {Order} from "../../model/order";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import {ActionOptions} from "tns-core-modules/ui/dialogs";
@@ -12,11 +11,8 @@ import {RadSideDrawerComponent} from "nativescript-pro-ui/sidedrawer/angular";
 import {isAndroid} from "tns-core-modules/platform";
 import {OrdersListService} from "./orders-list.service";
 import {OrderType} from "../../model/order-type";
-
-/*elementRegistryModule.registerElement("CardView",
-    () => require("nativescript-cardview").CardView);
-elementRegistryModule.registerElement("FilterSelect",
-    () => require("nativescript-filter-select").FilterSelect);*/
+import {ModalDialogOptions, ModalDialogService} from "nativescript-angular";
+import {ModalOptionsComponent} from "../shared/modal-options/modal-options.component";
 
 @Component({
     selector: "OrdersList",
@@ -28,7 +24,6 @@ export class OrdersListComponent implements OnInit {
 
     @Input() fromDate: Date;
     @Input() toDate: Date;
-    // @Input() ordersFromTab: Array<Order>;
     public orders: Array<Order> = [];
     public segBarItems: Array<SegmentedBarItem> = [];
     public title: string = "";
@@ -40,6 +35,15 @@ export class OrdersListComponent implements OnInit {
     public filterOnProps = environment.filterOnProps;
 
     @ViewChild("filterTextField") filterTf: TextField;
+    // @ViewChild("segBarRef") segBar: SegmentedBar;
+
+    public emptySortProp = environment.SelectSortProp;
+    public selectedSortProp = this.emptySortProp;
+    public noSortProp = environment.NoSortProp;
+    public sortOnProps = environment.SortOnProps;
+
+    public arrowUp = "&#xf062;";
+    public arrowDown = "&#xf063;";
 
     /* ***********************************************************
         * Use the @ViewChild decorator to get a reference to the drawer component.
@@ -49,7 +53,8 @@ export class OrdersListComponent implements OnInit {
 
     private _sideDrawerTransition: DrawerTransitionBase;
 
-    constructor(private olService: OrdersListService) {
+    constructor(private olService: OrdersListService, private modalService: ModalDialogService,
+                private vcRef: ViewContainerRef) {
         console.log('$$$$$$$$  in constructor, to date: ' + this.orders);
     }
 
@@ -65,7 +70,7 @@ export class OrdersListComponent implements OnInit {
         this.segBarItems.push(tomorrow);
 
         const next7days = new SegmentedBarItem();
-        next7days.title = "Next 7 Days";
+        next7days.title = "7 Days";
         this.segBarItems.push(next7days);
     }
 
@@ -76,6 +81,10 @@ export class OrdersListComponent implements OnInit {
         this.olService.getOrders(null).then(orders => {
             this.orders = orders;
         });
+
+        // update orders array to push picked up or delivered orders to the bottom
+
+
         console.log('$$$$$$$ in orders list comp ngOnInit: ' + this.orders.length);
 
     }
@@ -149,7 +158,7 @@ export class OrdersListComponent implements OnInit {
 
     getButtonBgColor(order: Order): string {
 
-        if(order.isPickedOrShipped)
+        if (order.isPickedOrShipped)
             return "#7cc17c";
         else
             return environment.lightenedSkyColor;
@@ -186,6 +195,17 @@ export class OrdersListComponent implements OnInit {
         });
     }
 
+    /*public segBarLoaded() {
+        console.log('In segbar loaded');
+        if(isAndroid) {
+            let andTabView = (<any>this.segBar)._getAndroidTabView();
+            for (var i = 0; i < this.segBar.items.length; i++) {
+                andTabView.getTextViewForItemAt(i).setAllCaps(false);
+            }
+        }
+    }*/
+
+
     public onSegBarSelectedIndexChange(args) {
         let segmetedBar = <SegmentedBar>args.object;
         this.title = segmetedBar.items[segmetedBar.selectedIndex].title + this.orderStr;
@@ -221,4 +241,41 @@ export class OrdersListComponent implements OnInit {
         });
     }
 
+    public showSortListPicker(args) {
+
+        this.showModalOptions(environment.SortOnProps).then(result => {
+            console.log('came back from modal');
+        }).catch(error => this.handleError(error));
+
+        /*var options: ActionOptions = {
+            message: "Select Sort",
+            cancelButtonText: "Cancel",
+            actions: this.sortOnProps
+        };
+
+        dialogs.action(options).then((result) => {
+            console.log(result);
+            if (result === 'Cancel' || result === this.noSortProp)
+                this.selectedSortProp = this.emptySortProp;
+            else {
+                this.selectedSortProp = result;
+            }
+        });*/
+    }
+
+    private showModalOptions(listOptions: Array<string>): Promise<any> {
+        const today = new Date();
+        const options: ModalDialogOptions = {
+            viewContainerRef: this.vcRef,
+            context: {"listOptions":listOptions, "title": "Sort On"},
+            fullscreen: false,
+        };
+
+        return this.modalService.showModal(ModalOptionsComponent, options);
+    }
+
+    private handleError(error: any) {
+        // TODO: handle error
+        console.log("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Error: " + error);
+    }
 }
