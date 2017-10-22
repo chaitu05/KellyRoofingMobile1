@@ -49,3 +49,14 @@ ActionBar .action-bar-title {
     background-color: lighten(#303030, 55%);
 }
 
+$order-odd-bg-color: #f2f2f2;
+$order-even-bg-color: #f0ffff;
+
+.odd {
+    background-color: $order-odd-bg-color;
+}
+
+.even {
+    background-color: $order-even-bg-color;
+}
+

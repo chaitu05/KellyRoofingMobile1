@@ -19,14 +19,14 @@
 
 //$order-odd-bg-color: #f2f2f2;
 $order-odd-bg-color: #f2f2f2;
-$order-even-bg-color: #f0ffff;
-$marginFilterAndCards: 5dpi;
+/*$order-even-bg-color: #f0ffff;
+$marginFilterAndCards: 5dpi;*/
 //$order-even-bg-color: #d1e1f9;
 //$order-even-bg-color: #f2f2f2;
 
-.odd {
+/*.odd {
     background-color: $order-odd-bg-color;
-}
+}*/
 
 .pick-or-del-btn {
     text-align: center;
@@ -42,9 +42,9 @@ $marginFilterAndCards: 5dpi;
     font-size: 13dpi;
 }
 
-.even {
+/*.even {
     background-color: $order-even-bg-color;
-}
+}*/
 
 #cardItemsStack {
     //padding: 5dpi;

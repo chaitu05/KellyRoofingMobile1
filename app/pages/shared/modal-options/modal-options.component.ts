@@ -45,6 +45,11 @@ export class ModalOptionsComponent implements OnInit {
     optionTapped(tappedOptStr:string, order:string) {
         console.log('$$$$$$$ Tapped option str: ' + tappedOptStr);
         console.log('$$$$$$$ Tapped option str: ' + order);
+        this.params.closeCallback();
+    }
+
+    cancelTapped() {
+        this.params.closeCallback();
     }
 
 }

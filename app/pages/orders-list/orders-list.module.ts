@@ -21,7 +21,7 @@ import {ModalDialogService, NSModuleFactoryLoader} from "nativescript-angular";
     providers: [
         OrdersListService,
         ModalDialogService,
-        { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
+        // { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],
     schemas: [
         NO_ERRORS_SCHEMA
