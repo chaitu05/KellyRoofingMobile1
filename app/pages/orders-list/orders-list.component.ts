@@ -13,6 +13,7 @@ import {OrdersListService} from "./orders-list.service";
 import {OrderType} from "../../model/order-type";
 import {ModalDialogOptions, ModalDialogService} from "nativescript-angular";
 import {ModalOptionsComponent} from "../shared/modal-options/modal-options.component";
+import {OrderingParams} from "../shared/modal-options/ordering-params";
 
 @Component({
     selector: "OrdersList",
@@ -33,6 +34,7 @@ export class OrdersListComponent implements OnInit {
     public selectedFilterProp = this.emptyFilterProp;
     public noFilterProp = environment.NoFilterProp;
     public filterOnProps = environment.filterOnProps;
+    public sortBtnText = environment.SortBtnText;
 
     @ViewChild("filterTextField") filterTf: TextField;
     // @ViewChild("segBarRef") segBar: SegmentedBar;
@@ -42,8 +44,8 @@ export class OrdersListComponent implements OnInit {
     public noSortProp = environment.NoSortProp;
     public sortOnProps = environment.SortOnProps;
 
-    public arrowUp = "&#xf062;";
-    public arrowDown = "&#xf063;";
+    public isSortSelected: boolean = false;
+    public sortedAsc: boolean = false;
 
     /* ***********************************************************
         * Use the @ViewChild decorator to get a reference to the drawer component.
@@ -243,8 +245,23 @@ export class OrdersListComponent implements OnInit {
 
     public showSortListPicker(args) {
 
-        this.showModalOptions(environment.SortOnProps).then(result => {
-            console.log('came back from modal');
+        this.showModalOptions(environment.SortOnProps).then((result: OrderingParams) => {
+            console.log('came back from modal: ' + result);
+            if (!!result) {
+                if (!!result.paramName) { // sort param selected.
+                    console.log('came back from modal: ' + result.paramName);
+                    console.log('came back from modal: ' + result.ascOrder + "\t !: " + !result.ascOrder);
+                    this.isSortSelected = true;
+                    this.sortedAsc = result.ascOrder;
+                    this.sortBtnText = result.paramName;
+                    console.log('came back from modal: ' + this.isSortSelected + "\t !: " + !this.sortedAsc);
+                }
+                else { // clear sort tapped.
+                    this.isSortSelected = false;
+                    this.sortBtnText = environment.SortBtnText;
+                    this.sortedAsc = false;
+                }
+            }
         }).catch(error => this.handleError(error));
 
         /*var options: ActionOptions = {
@@ -264,10 +281,9 @@ export class OrdersListComponent implements OnInit {
     }
 
     private showModalOptions(listOptions: Array<string>): Promise<any> {
-        const today = new Date();
         const options: ModalDialogOptions = {
             viewContainerRef: this.vcRef,
-            context: {"listOptions":listOptions, "title": "Sort On"},
+            context: {"listOptions": listOptions, "title": "Sort On"},
             fullscreen: false,
         };
 

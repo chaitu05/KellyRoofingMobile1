@@ -19,8 +19,8 @@
 
 //$order-odd-bg-color: #f2f2f2;
 $order-odd-bg-color: #f2f2f2;
-/*$order-even-bg-color: #f0ffff;
-$marginFilterAndCards: 5dpi;*/
+$order-even-bg-color: #f0ffff;
+$marginFilterAndCards: 5dpi;
 //$order-even-bg-color: #d1e1f9;
 //$order-even-bg-color: #f2f2f2;
 
@@ -51,7 +51,8 @@ $marginFilterAndCards: 5dpi;*/
 }
 
 .filter-grid {
-    margin: $marginFilterAndCards;
+    margin: 0 $marginFilterAndCards 0 $marginFilterAndCards;
+    //background-color: #5c687c;
 }
 
 .cardStyle {
@@ -77,6 +78,7 @@ $marginFilterAndCards: 5dpi;*/
         padding: 4 4 4 4;
         height: 36dpi;
         background-color: transparent;
+        margin-right: 4dpi;
 
         &.input-border {
             border-width: 1;
@@ -123,12 +125,15 @@ $marginFilterAndCards: 5dpi;*/
     color: $sky;
     border-color: $sky;
     font-size: 13dpi;
-    padding: 3dpi;
-    margin-left: 8dpi;
-    margin-right: 0dpi;
+    padding: 2dpi;
+    margin: 0;
 }
 
 .btn-outline {
     //height: auto;
+}
+
+.btn-material-type {
+    margin-top: 4dpi;
 }
 

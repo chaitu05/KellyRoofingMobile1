@@ -2,18 +2,23 @@
     <Label class="h2" [text]="params.context['title']" horizontalAlignment="center"></Label>
     <StackLayout class="hr-dark"></StackLayout>
     <StackLayout *ngFor="let opt of params.context['listOptions']">
-        <GridLayout rows="auto" borderRadius="10" columns="3*, *" (tap)="optionTapped(opt,ascOrder)" class="even" padding="12" >
-            <Label horizontalAlignment="left" [text]="opt" col="0"></Label>
-            <Label horizontalAlignment="right" text="&#xf062;" class="fa" col="1"></Label>
-        </GridLayout>
-        <GridLayout rows="auto" columns="3*, *" borderRadius="10" (tap)="optionTapped(opt,descOrder)" class="odd" padding="12" >
+        <GridLayout rows="auto" borderRadius="10" columns="3*, *" (tap)="optionTapped(opt,ascOrder)" class="even"
+                    padding="12">
             <Label horizontalAlignment="left" [text]="opt" col="0"></Label>
             <Label horizontalAlignment="right" text="&#xf063;" class="fa" col="1"></Label>
+        </GridLayout>
+        <GridLayout rows="auto" columns="3*, *" borderRadius="10" (tap)="optionTapped(opt,descOrder)" class="odd"
+                    padding="12">
+            <Label horizontalAlignment="left" [text]="opt" col="0"></Label>
+            <Label horizontalAlignment="right" text="&#xf062;" class="fa" col="1"></Label>
         </GridLayout>
 
     </StackLayout>
     <StackLayout class="hr-dark"></StackLayout>
-    <Button text="Cancel" horizontalAlignment="right" (tap)="cancelTapped()"></Button>
+    <StackLayout orientation="horizontal" horizontalAlignment="right">
+        <Button text="Clear Sort" class="cancel-btn" (tap)="clearTapped()"></Button>
+        <Button text="Cancel" class="cancel-btn" (tap)="cancelTapped()"></Button>
+    </StackLayout>
 </StackLayout>
 
 

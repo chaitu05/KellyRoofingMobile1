@@ -3,6 +3,7 @@ import {isAndroid} from "tns-core-modules/platform";
 import {ModalDialogParams} from "nativescript-angular";
 import {Page} from "tns-core-modules/ui/page";
 import {DatePicker} from "tns-core-modules/ui/date-picker";
+import {OrderingParams} from "./ordering-params";
 
 @Component({
     moduleId: module.id,
@@ -42,14 +43,18 @@ export class ModalOptionsComponent implements OnInit {
         this.params.closeCallback(datePicker.date);
     }
 
-    optionTapped(tappedOptStr:string, order:string) {
+    optionTapped(tappedOptStr:string, ordering:string) {
         console.log('$$$$$$$ Tapped option str: ' + tappedOptStr);
-        console.log('$$$$$$$ Tapped option str: ' + order);
-        this.params.closeCallback();
+        console.log('$$$$$$$ Tapped option str: ' + ordering);
+        this.params.closeCallback(new OrderingParams(tappedOptStr, (this.ascOrder === ordering) ? true : false));
     }
 
     cancelTapped() {
         this.params.closeCallback();
+    }
+
+    clearTapped() {
+        this.params.closeCallback(new OrderingParams());
     }
 
 }

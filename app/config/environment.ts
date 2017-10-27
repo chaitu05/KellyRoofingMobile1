@@ -17,6 +17,7 @@ export const environment = {
 	Next7DayOrders : "Next7DayOrders",
 	SelectFilterProp : "Select",
 	SelectSortProp : "Select",
+    SortBtnText : "Sort",
 	NoFilterProp : "No Filter",
 	NoSortProp : "No Sort",
 	filterOnProps : ["No Filter", "Job Name", "Purchase Order#", "City", "Sales Order#"],
