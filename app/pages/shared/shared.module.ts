@@ -4,6 +4,7 @@ import {NativeScriptUISideDrawerModule} from "nativescript-pro-ui/sidedrawer/ang
 
 import {SideDrawerComponent} from "./side-drawer/side-drawer.component";
 import {ModalOptionsComponent} from "./modal-options/modal-options.component";
+import {MultiSelModalComponent} from "./multi-sel-modal/multi-sel-modal.component";
 
 @NgModule({
     imports: [
@@ -13,16 +14,18 @@ import {ModalOptionsComponent} from "./modal-options/modal-options.component";
     declarations: [
         SideDrawerComponent,
         ModalOptionsComponent,
+        MultiSelModalComponent,
     ],
     exports: [
         SideDrawerComponent,
         ModalOptionsComponent,
+        MultiSelModalComponent,
         NativeScriptUISideDrawerModule
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ],
-    entryComponents: [ModalOptionsComponent]
+    entryComponents: [ModalOptionsComponent, MultiSelModalComponent]
 })
 export class SharedModule {
 }
