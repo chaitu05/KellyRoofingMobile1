@@ -2,12 +2,16 @@
     <Label class="h2" [text]="params.context['title']" horizontalAlignment="center"></Label>
     <StackLayout class="hr-dark"></StackLayout>
     <StackLayout *ngFor="let opt of params.context['listOptions']">
-        <GridLayout rows="auto" borderRadius="10" columns="3*, *" (tap)="optionTapped(opt,ascOrder)" class="even"
+        <GridLayout rows="auto" borderRadius="10" columns="3*, *" (tap)="optionTapped(opt,ascOrder)"
+                    [ngClass]="{'even': true,
+                    'selected-opt-bk-color': (!!orderingParams.paramName && orderingParams.paramName === opt && !!orderingParams.ascOrder)}"
                     padding="12">
             <Label horizontalAlignment="left" [text]="opt" col="0"></Label>
             <Label horizontalAlignment="right" text="&#xf063;" class="fa" col="1"></Label>
         </GridLayout>
-        <GridLayout rows="auto" columns="3*, *" borderRadius="10" (tap)="optionTapped(opt,descOrder)" class="odd"
+        <GridLayout rows="auto" columns="3*, *" borderRadius="10" (tap)="optionTapped(opt,descOrder)"
+                    [ngClass]="{'odd': true,
+                    'selected-opt-bk-color': (!!orderingParams.paramName && orderingParams.paramName === opt && !!!orderingParams.ascOrder)}"
                     padding="12">
             <Label horizontalAlignment="left" [text]="opt" col="0"></Label>
             <Label horizontalAlignment="right" text="&#xf062;" class="fa" col="1"></Label>

@@ -265,7 +265,7 @@ export class OrdersListComponent implements OnInit {
     public showSortListPicker(args) {
 
         this.showModalOptions(environment.SortOnProps,
-            (this.isSortSelected ? new OrderingParams(this.sortBtnText, this.sortedAsc) : null),
+            (this.isSortSelected ? new OrderingParams(this.sortBtnText, this.sortedAsc) : new OrderingParams()),
             "Sort On", ModalOptionsComponent, false)
             .then((result: OrderingParams) => {
                 console.log('came back from modal: ' + result);
@@ -290,20 +290,6 @@ export class OrdersListComponent implements OnInit {
                 }
             }).catch(error => this.handleError(error));
 
-        /*var options: ActionOptions = {
-            message: "Select Sort",
-            cancelButtonText: "Cancel",
-            actions: this.sortOnProps
-        };
-
-        dialogs.action(options).then((result) => {
-            console.log(result);
-            if (result === 'Cancel' || result === this.noSortProp)
-                this.selectedSortProp = this.emptySortProp;
-            else {
-                this.selectedSortProp = result;
-            }
-        });*/
     }
 
     private showModalOptions(listOptions: Array<string>, selectedOpts: any, title: string, comp: any, fullScreen: boolean): Promise<any> {

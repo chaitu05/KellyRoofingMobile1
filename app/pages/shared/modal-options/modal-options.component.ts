@@ -15,11 +15,13 @@ export class ModalOptionsComponent implements OnInit {
 
     ascOrder: string = "asc";
     descOrder: string = "desc";
+    orderingParams:OrderingParams;
 
     constructor(private params: ModalDialogParams, private page: Page) {
-        console.log('In ModalOptionsComp constructor: ' + this.params.context);
         console.log('In ModalOptionsComp constructor: ' + this.params.context["title"]);
         console.log('In ModalOptionsComp constructor: ' + this.params.context["listOptions"]);
+        console.log('In ModalOptionsComp constructor: ' + this.params.context["selectedOptions"]);
+        this.orderingParams = this.params.context["selectedOptions"];
     }
 
     ngOnInit(): void {
@@ -32,10 +34,6 @@ export class ModalOptionsComponent implements OnInit {
             this.params.closeCallback();
         });
 
-    }
-
-    getIconSource(icon: string, iosDir: string): string {
-        return isAndroid ? "res://" + icon : "res://" + iosDir + "/" + icon;
     }
 
     public submit() {
