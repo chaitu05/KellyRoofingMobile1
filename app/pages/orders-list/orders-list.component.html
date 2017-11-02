@@ -33,14 +33,19 @@
             </GridLayout>-->
 
             <GridLayout columns="*, *" rows="*, *" verticalAlignment="center" class="filter-grid">
+
                 <TextField col="0" row="0" #searchTextField hint="&#xf002;  Search text" class="input input-rounded fa"></TextField>
-                <Button col="1" row="0" class="btn btn-outline btn-rounded-sm" (tap)="showSortListPicker($event)">
-                    <FormattedString>
-                        <Span [text]="sortBtnText"></Span>
-                        <Span *ngIf="(!isSortSelected || sortedAsc)" class="fa" text="   &#xf063;"></Span>
-                        <Span *ngIf="(!isSortSelected || !sortedAsc)" class="fa" text="   &#xf062;"></Span>
-                    </FormattedString>
-                </Button>
+
+                <GridLayout col="1" row="0" columns="*, auto, auto" class="btn btn-outline btn-rounded-sm" (tap)="showSortListPicker($event)">
+                    <Label col="0" row="0" [text]="sortBtnText" class="sortBtnLabel" verticalAlignment="center"></Label>
+                    <Label col="1" row="0"
+                           *ngIf="((isSortSelected === true) && (sortedAsc === true)) || (isSortSelected === false && sortBtnText === envSortBtnText)"
+                           class="fa p-r-8" text="   &#xf063;" horizontalAlignment="center" verticalAlignment="center" ></Label>
+                    <Label col="2" row="0"
+                           *ngIf="((isSortSelected === true) && (sortedAsc === false)) || (isSortSelected === false && sortBtnText === envSortBtnText)"
+                           class="fa p-r-8" text="   &#xf062;" horizontalAlignment="center" verticalAlignment="center"></Label>
+                </GridLayout>
+
                 <Button col="0" row="1" colspan="2" class="btn btn-outline btn-rounded-sm btn-material-type">
                     <FormattedString>
                         <Span text="Material Type: All"></Span>

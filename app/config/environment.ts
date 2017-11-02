@@ -1,10 +1,10 @@
-/**
- * Please don't add to this file.
+/** 
+ * Please don't add to this file. 
  * This file gets GENERATED automatically.
- * Please add properties to config/env.common.properties or
- *	config/environment specific file.
+ * Please add properties to config/env.common.properties or 
+ *	config/environment specific file. 
  * Properties in env.common.properties can be overridden in environment
- * specific file.
+ * specific file. 
  **/
 export const environment = {
 
@@ -17,9 +17,9 @@ export const environment = {
 	Next7DayOrders : "Next7DayOrders",
 	SelectFilterProp : "Select",
 	SelectSortProp : "Select",
-    SortBtnText : "Sort",
 	NoFilterProp : "No Filter",
 	NoSortProp : "No Sort",
+	SortBtnText : "Sort",
 	filterOnProps : ["No Filter", "Job Name", "Purchase Order#", "City", "Sales Order#"],
 	SortOnProps : ["Job Name", "Pickup Date", "City", "Purchase Order#", "Sales Order#"],
 	PickUp : "Pick up",

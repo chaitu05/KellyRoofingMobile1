@@ -34,6 +34,7 @@ export class OrdersListComponent implements OnInit {
     public selectedFilterProp = this.emptyFilterProp;
     public noFilterProp = environment.NoFilterProp;
     public filterOnProps = environment.filterOnProps;
+    public envSortBtnText = environment.SortBtnText;
     public sortBtnText = environment.SortBtnText;
 
     @ViewChild("filterTextField") filterTf: TextField;
@@ -249,12 +250,16 @@ export class OrdersListComponent implements OnInit {
             console.log('came back from modal: ' + result);
             if (!!result) {
                 if (!!result.paramName) { // sort param selected.
-                    console.log('came back from modal: ' + result.paramName);
-                    console.log('came back from modal: ' + result.ascOrder + "\t !: " + !result.ascOrder);
+                    console.log('came back from modal param name: ' + result.paramName + '\nAsc: ' + result.ascOrder
+                        + '\nDesc: ' + !result.ascOrder);
                     this.isSortSelected = true;
                     this.sortedAsc = result.ascOrder;
                     this.sortBtnText = result.paramName;
-                    console.log('came back from modal: ' + this.isSortSelected + "\t !: " + !this.sortedAsc);
+                    console.log('variables updated: isSortSelected: ' + this.isSortSelected
+                        + "\nSortedAsc: " + this.sortedAsc
+                        + "\nsortBtnText: " + this.sortBtnText
+                        + "\nenvSortBtnText: " + this.envSortBtnText
+                    );
                 }
                 else { // clear sort tapped.
                     this.isSortSelected = false;
