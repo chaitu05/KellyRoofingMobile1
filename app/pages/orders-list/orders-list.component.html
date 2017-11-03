@@ -18,7 +18,7 @@
             <SegmentedBar [items]="segBarItems" selectedIndex="0"
                           (selectedIndexChange)="onSegBarSelectedIndexChange($event)" class="segbar-style m-5"></SegmentedBar>
 
-            <GridLayout columns="*, *" rows="*, *" verticalAlignment="center" class="filter-grid">
+            <!--<GridLayout columns="*, *" rows="*, *" horizontalAlignment="center" verticalAlignment="center" class="filter-grid">
 
                 <TextField col="0" row="0" #searchTextField hint="&#xf002;  Search text" class="input input-rounded fa"></TextField>
 
@@ -34,7 +34,34 @@
 
                 <Button col="0" text="Type: {{(selectedMatTypes.length === 0) ? 'All' : selectedMatTypes.join(', ')}}" row="1" colspan="2"
                         class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showOrderTypeSelect($event)"></Button>
-            </GridLayout>
+            </GridLayout>-->
+
+            <StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="center" class="filter-grid">
+
+                <StackLayout orientation="horizontal" verticalAlignment="center">
+
+                    <TextField  hint="&#xf002;  Search text" #searchTextField class="input input-rounded fa" style="width: 50%"></TextField>
+
+                    <StackLayout class="btn btn-outline btn-rounded-sm" (tap)="showSortListPicker($event)"
+                                 style="width: 50%" verticalAlignment="center" orientation="horizontal">
+
+                        <Label [text]="sortBtnText" class="sortBtnLabel" style="width: 60%" horizontalAlignment="left" verticalAlignment="center"></Label>
+
+                        <Label class="fa p-r-8" text="   &#xf063;" horizontalAlignment="right" style="width: 20%" verticalAlignment="center"
+                               *ngIf="((isSortSelected === true) && (sortedAsc === true)) || (isSortSelected === false && sortBtnText === envSortBtnText)">
+                        </Label>
+
+                        <Label class="fa p-r-8" text="   &#xf062;" horizontalAlignment="right" style="width: 20%" verticalAlignment="center"
+                               *ngIf="((isSortSelected === true) && (sortedAsc === false)) || (isSortSelected === false && sortBtnText === envSortBtnText)">
+                        </Label>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+                <Button text="Type: {{(selectedMatTypes.length === 0) ? 'All' : selectedMatTypes.join(', ')}}"
+                        class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showOrderTypeSelect($event)"></Button>
+            </StackLayout>
 
             <ListView [items]="orders" separatorColor="white">
                 <ng-template let-item="item" let-odd="odd" let-even="even">
