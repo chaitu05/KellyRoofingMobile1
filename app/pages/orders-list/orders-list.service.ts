@@ -25,14 +25,14 @@ export class OrdersListService {
     private dummyOrderInitialize() {
         this.orders.push({
             purchOrderNum: 12345, salesOrderNum: 2789, licenseNum: 2,
-            jobName: 'wal-mart', materialType: MaterialType.fibreglass, orderType: OrderType.Pickup,
+            jobName: 'wal-mart', materialType: MaterialType.insulation, orderType: OrderType.Pickup,
             orderDate: new Date(),
             pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
             orderConfirmations: [], isPickedOrShipped: false
         });
         this.orders.push({
             purchOrderNum: 12346, salesOrderNum: 3789, licenseNum: 2,
-            jobName: 'wal-mart', materialType: MaterialType.material, orderType: OrderType.Delivery,
+            jobName: 'wal-mart', materialType: MaterialType.membrane, orderType: OrderType.Delivery,
             orderDate: new Date(),
             pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
             orderConfirmations: [{confirmed: true, priorDays: 1, confirmedAt: new Date()},
@@ -63,7 +63,7 @@ export class OrdersListService {
         });
         this.orders.push({
             purchOrderNum: 12349, salesOrderNum: 6789, licenseNum: 2,
-            jobName: 'Target', materialType: MaterialType.material, orderType: OrderType.Pickup, orderDate: new Date(),
+            jobName: 'Target', materialType: MaterialType.membrane, orderType: OrderType.Pickup, orderDate: new Date(),
             pickupDate: new Date(), city: 'Salt lake', orderPlaced: true,
             orderConfirmations: [{confirmed: true, priorDays: 4, confirmedAt: new Date()},
                 {confirmed: false, priorDays: 1, confirmedAt: new Date()}], isPickedOrShipped: false
@@ -95,7 +95,7 @@ export class OrdersListService {
             salesOrderNum: 9789,
             licenseNum: 2,
             jobName: 'Smiths',
-            materialType: MaterialType.fibreglass,
+            materialType: MaterialType.insulation,
             orderType: OrderType.Delivery,
             orderDate: new Date(),
             pickupDate: new Date(),
@@ -110,7 +110,7 @@ export class OrdersListService {
             salesOrderNum: 10789,
             licenseNum: 2,
             jobName: 'Smiths',
-            materialType: MaterialType.fibreglass,
+            materialType: MaterialType.insulation,
             orderType: OrderType.Pickup,
             orderDate: new Date(),
             pickupDate: new Date(),
@@ -132,7 +132,7 @@ export class OrdersListService {
             salesOrderNum: 110789,
             licenseNum: 2,
             jobName: 'Costco',
-            materialType: MaterialType.material,
+            materialType: MaterialType.membrane,
             orderType: OrderType.Delivery,
             orderDate: new Date(),
             pickupDate: new Date(),
@@ -154,7 +154,7 @@ export class OrdersListService {
             salesOrderNum: 130789,
             licenseNum: 2,
             jobName: 'Lees',
-            materialType: MaterialType.fibreglass,
+            materialType: MaterialType.insulation,
             orderType: OrderType.Delivery,
             orderDate: new Date(),
             pickupDate: new Date(),

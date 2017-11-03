@@ -1,6 +1,6 @@
 export enum MaterialType {
-    fibreglass = "fibreglass",
-    material = "material",
+    insulation = "insulation",
     metal = "metal",
+    membrane = "membrane",
     skylites = "skylites"
 }

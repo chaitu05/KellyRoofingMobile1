@@ -8,7 +8,7 @@ export class Order {
     salesOrderNum: number;
     licenseNum: number;
     jobName: string;
-    materialType: MaterialType; // (ISO, material, metal, Skylites)
+    materialType: MaterialType; // (insulation, membrane, metal, Skylites)
     orderType: OrderType; // (Delivery or Pickup)
     orderDate: Date;
     pickupDate: Date;
