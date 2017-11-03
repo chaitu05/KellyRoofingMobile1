@@ -45,13 +45,13 @@
                     <StackLayout class="btn btn-outline btn-rounded-sm" (tap)="showSortListPicker($event)"
                                  style="width: 50%" verticalAlignment="center" orientation="horizontal">
 
-                        <Label [text]="sortBtnText" class="sortBtnLabel" style="width: 60%" horizontalAlignment="left" verticalAlignment="center"></Label>
+                        <Label [text]="sortBtnText" class="sortBtnLabel" style="width: 66%" horizontalAlignment="left" verticalAlignment="center"></Label>
 
-                        <Label class="fa p-r-8" text="   &#xf063;" horizontalAlignment="right" style="width: 20%" verticalAlignment="center"
+                        <Label class="fa p-r-2" text=" &#xf063;" horizontalAlignment="right" style="width: 17%" verticalAlignment="center"
                                *ngIf="((isSortSelected === true) && (sortedAsc === true)) || (isSortSelected === false && sortBtnText === envSortBtnText)">
                         </Label>
 
-                        <Label class="fa p-r-8" text="   &#xf062;" horizontalAlignment="right" style="width: 20%" verticalAlignment="center"
+                        <Label class="fa p-r-3" text=" &#xf062;" horizontalAlignment="right" style="width: 17%" verticalAlignment="center"
                                *ngIf="((isSortSelected === true) && (sortedAsc === false)) || (isSortSelected === false && sortBtnText === envSortBtnText)">
                         </Label>
 
