@@ -27,7 +27,10 @@ export class OrdersListComponent implements OnInit {
 
     @Input() fromDate: Date;
     @Input() toDate: Date;
+    public dummy7dayOrders: Array<Order> = [];
     public orders: Array<Order> = [];
+    public pendingOrders: Array<Order> = [];
+    public finishedOrders: Array<Order> = [];
     public segBarItems: Array<SegmentedBarItem> = [];
     public title: string = "";
     public orderStr: string = " Orders";
@@ -84,16 +87,16 @@ export class OrdersListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this.initSegBarItems();
         // this.dummyOrderInitialize();
-        this.olService.getOrders(null).then(orders => {
-            this.orders = orders;
+        this.olService.getOrders(null, new Date(), new Date()).then(ords => {
+            this.dummy7dayOrders = ords;
+            console.log('# orders in return: ' + ords.length + '\tassigned: ' + this.dummy7dayOrders.length);
+
+            // Get today's orders.
+            this.preWorkForDisplayOrders(new Date(), new Date());
         });
 
-        // update orders array to push picked up or delivered orders to the bottom
-
-
-        console.log('$$$$$$$ in orders list comp ngOnInit: ' + this.orders.length);
-
     }
+
 
     get sideDrawerTransition(): DrawerTransitionBase {
         return this._sideDrawerTransition;
@@ -213,9 +216,24 @@ export class OrdersListComponent implements OnInit {
 
 
     public onSegBarSelectedIndexChange(args) {
+
         let segmetedBar = <SegmentedBar>args.object;
         this.title = segmetedBar.items[segmetedBar.selectedIndex].title + this.orderStr;
+
         console.log('Segmented bar selected index changed: ' + (segmetedBar.selectedIndex) + "\nTitle: " + this.title);
+
+        let dt: Date = new Date();
+
+        if (segmetedBar.selectedIndex === 0)
+            this.preWorkForDisplayOrders(dt, dt);
+        else if (segmetedBar.selectedIndex === 1) {
+            dt.setDate(dt.getDate() + 1)
+            this.preWorkForDisplayOrders(dt, dt);
+        }
+        else {
+            dt.setDate(dt.getDate() + 7)
+            this.preWorkForDisplayOrders(new Date(), dt);
+        }
     }
 
     onMainMenuTap(): void {
@@ -306,4 +324,60 @@ export class OrdersListComponent implements OnInit {
         // TODO: handle error
         console.log("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Error: " + error);
     }
+
+    private preWorkForDisplayOrders(start: Date, end: Date) {
+
+        this.orders = this.getOrdersInDateRange(start, end);
+        console.log('# orders: ' + this.orders.length + '\n# 7 day orders: ' + this.dummy7dayOrders.length);
+
+        // Separate finished and pending orders.
+        this.separateOrders();
+        console.log('Separated # orders: ' + this.orders.length + '\n#Finished: ' + this.finishedOrders.length + '\n#Pending: ' + this.pendingOrders.length);
+
+        // Sort finished and pending orders.
+        this.sortOrders();
+        console.log('Sorted # orders: ' + this.orders.length + '\n#Finished: ' + this.finishedOrders.length + '\n#Pending: ' + this.pendingOrders.length);
+
+        // Update orders.
+        this.orders = [];
+        this.orders.push(...this.pendingOrders);
+        this.orders.push(...this.finishedOrders);
+        console.log('Updated # orders: ' + this.orders.length + '\n#Finished: ' + this.finishedOrders.length + '\n#Pending: ' + this.pendingOrders.length);
+    }
+
+    private getOrdersInDateRange(start: Date, end: Date): Order[] {
+
+        let ors: Order[] = [];
+
+        this.dummy7dayOrders.forEach((o) => {
+            if (o.pickupDate.getDate() <= end.getDate())
+                ors.push(o);
+        });
+
+        return ors;
+    }
+
+    private separateOrders(): void {
+
+        this.pendingOrders = [];
+        this.finishedOrders = [];
+
+        this.orders.forEach((o) => {
+            if (o.isPickedOrShipped)
+                this.finishedOrders.push(o);
+            else
+                this.pendingOrders.push(o);
+        });
+    }
+
+    private sortOrders(): void {
+        this.pendingOrders.sort((a, b) => {
+            return (b.pickupDate) > (a.pickupDate) ? -1 : (b.pickupDate) < (a.pickupDate) ? 1 : 0;
+        });
+
+        this.finishedOrders.sort((a, b) => {
+            return (b.pickupDate) > (a.pickupDate) ? -1 : (b.pickupDate) < (a.pickupDate) ? 1 : 0;
+        });
+    }
+
 }
