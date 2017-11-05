@@ -275,9 +275,9 @@ export class OrdersListComponent implements OnInit {
             .then((result: string[]) => {
                 console.log('came back from modl: ' + result);
                 if (!!result) {
-                    this.liService.showLoading("Filtering Orders");
                     console.log('came back from modal: ' + result);
                     this.selectedMatTypes = result;
+                    this.liService.showLoading("Filtering Orders");
                     this.applyFilters();
                     this.liService.hideLoading();
                 }
@@ -290,16 +290,16 @@ export class OrdersListComponent implements OnInit {
 
         this.applyMatTypeFilter();
 
-        if (!!this.searchTextField.text && this.searchTextField.text.length > 3)
+        if (!!this.searchTextField.text && this.searchTextField.text.length > 2)
             this.applySearchFilter();
 
-        // TODO: check condition and do sort filter
-        this.applySort();
+        if (this.isSortSelected && this.sortBtnText !== environment.SortBtnText)
+            this.applySort();
     }
 
     private applyMatTypeFilter(): void {
 
-        if(this.selectedMatTypes.length === 0) { // Means MaterialType filter is cleared. Show all material types.
+        if (this.selectedMatTypes.length === 0) { // Means MaterialType filter is cleared. Show all material types.
             this.orders.push(...this.ordersWithoutFilters);
             return;
         }
@@ -316,7 +316,115 @@ export class OrdersListComponent implements OnInit {
 
     private applySort(): void {
 
+        // find first index of order with isPickedOrDelivered true.
+        let idx = this.orders.findIndex(ord => ord.isPickedOrShipped === true);
+
+        // split into two arrays at that index
+        let finishedOrders: Order[] = this.orders.splice(idx);
+
+        // sort both arrays based on sortBtnText
+        this.sortOrdersOnField(this.orders);
+        this.sortOrdersOnField(this.finishedOrders);
+
+        // join both arrays in to this.orders
+        this.orders.push(...this.finishedOrders);
     }
+
+    private sortOrdersOnField(ords: Order[]) {
+
+        if (this.sortBtnText === environment.SortJobName) {
+
+            if (this.sortedAsc) { // asc
+                ords.sort((a, b) => {
+                    let ajn = a.jobName.toUpperCase();
+                    let bjn = b.jobName.toUpperCase();
+                    return ajn < bjn ? -1 : ajn > bjn ? 1 : 0;
+                });
+            }
+            else { // desc
+                ords.sort((a, b) => {
+                    let ajn = a.jobName.toUpperCase();
+                    let bjn = b.jobName.toUpperCase();
+                    return ajn > bjn ? -1 : ajn < bjn ? 1 : 0;
+                });
+            }
+        }
+
+        else if (this.sortBtnText === environment.SortCity) {
+
+            if (this.sortedAsc) { // asc
+                ords.sort((a, b) => {
+                    let ac = a.city.toUpperCase();
+                    let bc = b.city.toUpperCase();
+                    return ac < bc ? -1 : ac > bc ? 1 : 0;
+                });
+            }
+            else { // desc
+                ords.sort((a, b) => {
+                    let ac = a.city.toUpperCase();
+                    let bc = b.city.toUpperCase();
+                    return ac > bc ? -1 : ac < bc ? 1 : 0;
+                });
+            }
+        }
+
+        else if (this.sortBtnText === environment.SortPickupDate) {
+
+            if (this.sortedAsc) { // asc
+                ords.sort((a, b) => {
+                    let aPickDt = a.pickupDate;
+                    let bPickDt = b.pickupDate;
+                    return aPickDt < bPickDt ? -1 : aPickDt > bPickDt ? 1 : 0;
+                });
+            }
+            else { // desc
+                ords.sort((a, b) => {
+                    let aPickDt = a.pickupDate;
+                    let bPickDt = b.pickupDate;
+                    return aPickDt > bPickDt ? -1 : aPickDt < bPickDt ? 1 : 0;
+                });
+            }
+        }
+
+        else if (this.sortBtnText === environment.SortPurcOrdNum) {
+
+            if (this.sortedAsc) { // asc
+                ords.sort((a, b) => {
+                    let aPurchOrdNum = a.purchOrderNum;
+                    let bPurchOrdNum = b.purchOrderNum;
+                    return aPurchOrdNum < bPurchOrdNum ? -1 : aPurchOrdNum > bPurchOrdNum ? 1 : 0;
+                });
+            }
+            else { // desc
+                ords.sort((a, b) => {
+                    let aPurchOrdNum = a.purchOrderNum;
+                    let bPurchOrdNum = b.purchOrderNum;
+                    return aPurchOrdNum > bPurchOrdNum ? -1 : aPurchOrdNum < bPurchOrdNum ? 1 : 0;
+                });
+            }
+        }
+
+        else if (this.sortBtnText === environment.SortSalesOrdNum) {
+
+            if (this.sortedAsc) { // asc
+                ords.sort((a, b) => {
+                    let aSalesOrdNum = a.salesOrderNum;
+                    let bSalesOrdNum = b.salesOrderNum;
+                    return aSalesOrdNum < bSalesOrdNum ? -1 : aSalesOrdNum > bSalesOrdNum ? 1 : 0;
+                });
+            }
+            else { // desc
+                ords.sort((a, b) => {
+                    let aSalesOrdNum = a.salesOrderNum;
+                    let bSalesOrdNum = b.salesOrderNum;
+                    return aSalesOrdNum > bSalesOrdNum ? -1 : aSalesOrdNum < bSalesOrdNum ? 1 : 0;
+                });
+            }
+        }
+
+
+    }
+
 
     public showSortListPicker(args) {
 
@@ -343,6 +451,10 @@ export class OrdersListComponent implements OnInit {
                         this.sortBtnText = environment.SortBtnText;
                         this.sortedAsc = false;
                     }
+
+                    this.liService.showLoading("Sorting Orders");
+                    this.applyFilters();
+                    this.liService.hideLoading();
                 }
             }).catch(error => this.handleError(error));
 
