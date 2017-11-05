@@ -320,14 +320,14 @@ export class OrdersListComponent implements OnInit {
         let idx = this.orders.findIndex(ord => ord.isPickedOrShipped === true);
 
         // split into two arrays at that index
-        let finishedOrders: Order[] = this.orders.splice(idx);
+        let splicedFinishedOrders: Order[] = this.orders.splice(idx);
 
         // sort both arrays based on sortBtnText
         this.sortOrdersOnField(this.orders);
-        this.sortOrdersOnField(this.finishedOrders);
+        this.sortOrdersOnField(splicedFinishedOrders);
 
         // join both arrays in to this.orders
-        this.orders.push(...this.finishedOrders);
+        this.orders.push(...splicedFinishedOrders);
     }
 
     private sortOrdersOnField(ords: Order[]) {
