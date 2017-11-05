@@ -350,7 +350,7 @@ export class OrdersListComponent implements OnInit {
         let ors: Order[] = [];
 
         this.dummy7dayOrders.forEach((o) => {
-            if (o.pickupDate.getDate() <= end.getDate())
+            if (o.pickupDate.getDate() >= start.getDate() && o.pickupDate.getDate() <= end.getDate())
                 ors.push(o);
         });
 

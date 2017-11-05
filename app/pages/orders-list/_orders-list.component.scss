@@ -24,9 +24,6 @@ $marginFilterAndCards: 5dpi;
 //$order-even-bg-color: #d1e1f9;
 //$order-even-bg-color: #f2f2f2;
 
-/*.odd {
-    background-color: $order-odd-bg-color;
-}*/
 
 .pick-or-del-btn {
     text-align: center;
@@ -53,6 +50,30 @@ $marginFilterAndCards: 5dpi;
 .filter-grid {
     margin: 3 $marginFilterAndCards 5 $marginFilterAndCards;
     //background-color: #5c687c;
+}
+
+/*@keyframes example {
+    from { background-color: red; }
+    to { background-color: green; }
+}*/
+
+/*.view {
+    animation-name: example;
+    animation-duration: 1;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}*/
+
+@keyframes order-animate {
+    from { transform: translate(0, 100); }
+    to { transform: translate(0, 0); }
+}
+
+.stack-in-card {
+    animation-name: order-animate;
+    animation-duration: 2s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
 }
 
 .cardStyle {
