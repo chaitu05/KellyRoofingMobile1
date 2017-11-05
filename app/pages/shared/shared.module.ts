@@ -5,6 +5,7 @@ import {NativeScriptUISideDrawerModule} from "nativescript-pro-ui/sidedrawer/ang
 import {SideDrawerComponent} from "./side-drawer/side-drawer.component";
 import {ModalOptionsComponent} from "./modal-options/modal-options.component";
 import {MultiSelModalComponent} from "./multi-sel-modal/multi-sel-modal.component";
+import {LoadingIndicatorService} from "./loading-indicator.service";
 
 @NgModule({
     imports: [
@@ -15,6 +16,9 @@ import {MultiSelModalComponent} from "./multi-sel-modal/multi-sel-modal.componen
         SideDrawerComponent,
         ModalOptionsComponent,
         MultiSelModalComponent,
+    ],
+    providers: [
+        LoadingIndicatorService
     ],
     exports: [
         SideDrawerComponent,

@@ -16,6 +16,7 @@ import {ModalOptionsComponent} from "../shared/modal-options/modal-options.compo
 import {OrderingParams} from "../shared/modal-options/ordering-params";
 import {MaterialType} from "../../model/material-type";
 import {MultiSelModalComponent} from "../shared/multi-sel-modal/multi-sel-modal.component";
+import {LoadingIndicatorService} from "../shared/loading-indicator.service";
 
 @Component({
     selector: "OrdersList",
@@ -53,7 +54,7 @@ export class OrdersListComponent implements OnInit {
 
     public isSortSelected: boolean = false;
     public sortedAsc: boolean = false;
-
+    // public activityIndicator:boolean = false;
     /* ***********************************************************
         * Use the @ViewChild decorator to get a reference to the drawer component.
         * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
@@ -63,7 +64,7 @@ export class OrdersListComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
 
     constructor(private olService: OrdersListService, private modalService: ModalDialogService,
-                private vcRef: ViewContainerRef) {
+                private liService: LoadingIndicatorService, private vcRef: ViewContainerRef) {
         console.log('$$$$$$$$  in constructor, to date: ' + this.orders);
     }
 
@@ -86,13 +87,9 @@ export class OrdersListComponent implements OnInit {
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this.initSegBarItems();
-        // this.dummyOrderInitialize();
         this.olService.getOrders(null, new Date(), new Date()).then(ords => {
             this.dummy7dayOrders = ords;
             console.log('# orders in return: ' + ords.length + '\tassigned: ' + this.dummy7dayOrders.length);
-
-            // Get today's orders.
-            this.preWorkForDisplayOrders(new Date(), new Date());
         });
 
     }
@@ -179,7 +176,6 @@ export class OrdersListComponent implements OnInit {
     }
 
     getIconSource(icon: string, iosDir: string): string {
-        console.log('in icon source');
         return isAndroid ? "res://" + icon : "res://" + iosDir + "/" + icon;
     }
 
@@ -224,6 +220,8 @@ export class OrdersListComponent implements OnInit {
 
         let dt: Date = new Date();
 
+        this.liService.showLoading('Loading ' + this.title);
+
         if (segmetedBar.selectedIndex === 0)
             this.preWorkForDisplayOrders(dt, dt);
         else if (segmetedBar.selectedIndex === 1) {
@@ -234,6 +232,8 @@ export class OrdersListComponent implements OnInit {
             dt.setDate(dt.getDate() + 7)
             this.preWorkForDisplayOrders(new Date(), dt);
         }
+
+        this.liService.hideLoading();
     }
 
     onMainMenuTap(): void {
