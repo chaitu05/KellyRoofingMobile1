@@ -103,7 +103,7 @@ $marginFilterAndCards: 5dpi;
         padding: 4 4 4 4;
         height: 36dpi;
         background-color: transparent;
-        margin-right: 4dpi;
+        //margin-right: 4dpi;
 
         &.input-border {
             border-width: 1;
@@ -156,6 +156,12 @@ $marginFilterAndCards: 5dpi;
 
 .btn-outline {
     //height: auto;
+}
+
+.search-btn {
+    min-width: 0dpi;
+    padding-left: 0dpi;
+    padding-right: 0dpi;
 }
 
 .btn-material-type {

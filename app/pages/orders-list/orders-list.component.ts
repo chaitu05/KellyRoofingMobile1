@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, ViewChild, ViewContainerRef} from "@angular/core";
 import {Order} from "../../model/order";
 import * as dialogs from "tns-core-modules/ui/dialogs";
-import {ActionOptions} from "tns-core-modules/ui/dialogs";
 import {ItemEventData} from "tns-core-modules/ui/list-view";
 import {environment} from "../../config/environment";
 import {TextField} from "tns-core-modules/ui/text-field";
@@ -17,6 +16,7 @@ import {OrderingParams} from "../shared/modal-options/ordering-params";
 import {MaterialType} from "../../model/material-type";
 import {MultiSelModalComponent} from "../shared/multi-sel-modal/multi-sel-modal.component";
 import {LoadingIndicatorService} from "../shared/loading-indicator.service";
+import {Page} from "tns-core-modules/ui/page";
 
 @Component({
     selector: "OrdersList",
@@ -55,6 +55,7 @@ export class OrdersListComponent implements OnInit {
 
     public isSortSelected: boolean = false;
     public sortedAsc: boolean = false;
+    private searchTextView: TextField;
     // public activityIndicator:boolean = false;
     /* ***********************************************************
         * Use the @ViewChild decorator to get a reference to the drawer component.
@@ -65,7 +66,7 @@ export class OrdersListComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
 
     constructor(private olService: OrdersListService, private modalService: ModalDialogService,
-                private liService: LoadingIndicatorService, private vcRef: ViewContainerRef) {
+                private liService: LoadingIndicatorService, private vcRef: ViewContainerRef, private page: Page) {
         console.log('$$$$$$$$  in constructor, to date: ' + this.orders);
     }
 
@@ -88,6 +89,7 @@ export class OrdersListComponent implements OnInit {
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this.initSegBarItems();
+        this.searchTextView = <TextField>this.page.getViewById<TextField>("searchTxtFieldView");
         this.olService.getOrders(null, new Date(), new Date()).then(ords => {
             this.dummy7dayOrders = ords;
             console.log('# orders in return: ' + ords.length + '\tassigned: ' + this.dummy7dayOrders.length);
@@ -214,6 +216,9 @@ export class OrdersListComponent implements OnInit {
 
     public onSegBarSelectedIndexChange(args) {
 
+        console.log('search text view: ' + this.searchTextView);
+        // this.searchTextView.dismissSoftInput();
+
         let segmetedBar = <SegmentedBar>args.object;
         this.title = segmetedBar.items[segmetedBar.selectedIndex].title + this.orderStr;
 
@@ -248,23 +253,9 @@ export class OrdersListComponent implements OnInit {
         });*/
     }
 
-    public showFilterListPicker(args) {
-
-        var options: ActionOptions = {
-            message: "Select Filter",
-            cancelButtonText: "Cancel",
-            actions: this.filterOnProps
-        };
-
-        dialogs.action(options).then((result) => {
-            console.log(result);
-            if (result === 'Cancel' || result === this.noFilterProp)
-                this.selectedFilterProp = this.emptyFilterProp;
-            else {
-                this.selectedFilterProp = result;
-                this.searchTextField.focus();
-            }
-        });
+    public searchTextFieldTapped(args) {
+        console.log('Search text field tapped');
+        // this.searchTextField.focus();
     }
 
     public showMaterialTypeSelect(args) {

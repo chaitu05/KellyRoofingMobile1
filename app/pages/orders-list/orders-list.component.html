@@ -40,7 +40,12 @@
 
                 <StackLayout orientation="horizontal" verticalAlignment="center">
 
-                    <TextField  hint="&#xf002;  Search text" #searchTextField class="input input-rounded fa" style="width: 50%"></TextField>
+                    <!--<TextField  hint="&#xf002;  Search text" #searchTextField class="input input-rounded fa" style="width: 50%"></TextField>-->
+                    <StackLayout style="width: 50%" orientation="horizontal" marginRight="4">
+                        <TextField autocorrect="false" hint="Search Name/Puch#" id="searchTxtFieldView" #searchTextField class="input input-rounded fa"
+                                   style="width: 85%" (tap)="searchTextFieldTapped($event)"></TextField>
+                        <Button class="btn btn-outline btn-rounded-sm search-btn fa" text="&#xf002;" style="width: 15%" horizontalAlignment="right"></Button>
+                    </StackLayout>
 
                     <StackLayout class="btn btn-outline btn-rounded-sm" (tap)="showSortListPicker($event)"
                                  style="width: 50%" verticalAlignment="center" orientation="horizontal">
