@@ -30,6 +30,7 @@ export class OrdersListComponent implements OnInit {
     @Input() toDate: Date;
     public dummy7dayOrders: Array<Order> = [];
     public orders: Array<Order> = [];
+    public ordersWithoutFilters: Array<Order> = [];
     public pendingOrders: Array<Order> = [];
     public finishedOrders: Array<Order> = [];
     public segBarItems: Array<SegmentedBarItem> = [];
@@ -43,7 +44,7 @@ export class OrdersListComponent implements OnInit {
     public envSortBtnText = environment.SortBtnText;
     public sortBtnText = environment.SortBtnText;
 
-    @ViewChild("filterTextField") filterTf: TextField;
+    @ViewChild("searchTextField") searchTextField: TextField;
     // @ViewChild("segBarRef") segBar: SegmentedBar;
 
     public emptySortProp = environment.SelectSortProp;
@@ -232,7 +233,8 @@ export class OrdersListComponent implements OnInit {
             dt.setDate(dt.getDate() + 7)
             this.preWorkForDisplayOrders(new Date(), dt);
         }
-
+        this.ordersWithoutFilters = this.orders;
+        this.applyFilters();
         this.liService.hideLoading();
     }
 
@@ -260,24 +262,60 @@ export class OrdersListComponent implements OnInit {
                 this.selectedFilterProp = this.emptyFilterProp;
             else {
                 this.selectedFilterProp = result;
-                this.filterTf.focus();
+                this.searchTextField.focus();
             }
         });
     }
 
-    public showOrderTypeSelect(args) {
+    public showMaterialTypeSelect(args) {
 
         console.log('show order type selector tapped: ' + Object.keys(MaterialType));
-
 
         this.showModalOptions(Object.keys(MaterialType), this.selectedMatTypes, 'Select Types', MultiSelModalComponent, false)
             .then((result: string[]) => {
                 console.log('came back from modl: ' + result);
                 if (!!result) {
+                    this.liService.showLoading("Filtering Orders");
                     console.log('came back from modal: ' + result);
                     this.selectedMatTypes = result;
+                    this.applyFilters();
+                    this.liService.hideLoading();
                 }
             }).catch(error => this.handleError(error));
+    }
+
+    private applyFilters(): void {
+
+        this.orders = [];
+
+        this.applyMatTypeFilter();
+
+        if (!!this.searchTextField.text && this.searchTextField.text.length > 3)
+            this.applySearchFilter();
+
+        // TODO: check condition and do sort filter
+        this.applySort();
+    }
+
+    private applyMatTypeFilter(): void {
+
+        if(this.selectedMatTypes.length === 0) { // Means MaterialType filter is cleared. Show all material types.
+            this.orders.push(...this.ordersWithoutFilters);
+            return;
+        }
+
+        this.ordersWithoutFilters.forEach((ord) => {
+            if (this.selectedMatTypes.indexOf(ord.materialType.toString()) > -1)
+                this.orders.push(ord);
+        });
+    }
+
+    private applySearchFilter(): void {
+
+    }
+
+    private applySort(): void {
+
     }
 
     public showSortListPicker(args) {

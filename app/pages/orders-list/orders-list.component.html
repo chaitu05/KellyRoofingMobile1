@@ -33,7 +33,7 @@
                 </GridLayout>
 
                 <Button col="0" text="Type: {{(selectedMatTypes.length === 0) ? 'All' : selectedMatTypes.join(', ')}}" row="1" colspan="2"
-                        class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showOrderTypeSelect($event)"></Button>
+                        class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showMaterialTypeSelect($event)"></Button>
             </GridLayout>-->
 
             <StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="center" class="filter-grid">
@@ -60,7 +60,7 @@
                 </StackLayout>
 
                 <Button text="Type: {{(selectedMatTypes.length === 0) ? 'All' : selectedMatTypes.join(', ')}}"
-                        class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showOrderTypeSelect($event)"></Button>
+                        class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showMaterialTypeSelect($event)"></Button>
             </StackLayout>
 
             <ListView [items]="orders" separatorColor="white">
