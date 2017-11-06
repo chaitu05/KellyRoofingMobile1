@@ -256,7 +256,7 @@ export class OrdersListComponent implements OnInit {
         this.liService.hideLoading();
     }
 
-    private segBarIndexChangeWork(segBar:SegmentedBar) {
+    private segBarIndexChangeWork(segBar: SegmentedBar) {
 
 
         console.log('Segmented bar selected index changed: ' + (segBar.selectedIndex) + "\nTitle: " + this.title);
@@ -340,8 +340,10 @@ export class OrdersListComponent implements OnInit {
             return;
 
         let filteredOrds: Order[] = [];
-        filteredOrds = this.orders.filter((ord) =>
-            (ord.jobName.toUpperCase() + ord.purchOrderNum).indexOf(this.searchTextView.text) > 0);
+        filteredOrds = this.orders.filter((ord) => {
+            return (ord.jobName.toUpperCase() + ord.purchOrderNum).indexOf(this.searchTextView.text.toUpperCase()) > -1;
+        });
+
         this.orders = filteredOrds;
     }
 
