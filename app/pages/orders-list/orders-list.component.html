@@ -12,10 +12,11 @@
         <SideDrawer [selectedPage]="'Home'"></SideDrawer>
     </StackLayout>
 
-    <GridLayout class="page-content" tkMainContent>
-        <StackLayout padding="10dpi" class="form">
+    <GridLayout rows="auto, auto, *" columns="*" class="page-content" tkMainContent>
 
-            <SegmentedBar [items]="segBarItems" selectedIndex="0"
+        <!--<StackLayout padding="10dpi" class="form">-->
+
+            <SegmentedBar row="0" [items]="segBarItems" selectedIndex="0"
                           (selectedIndexChange)="onSegBarSelectedIndexChange($event)" class="segbar-style m-5"></SegmentedBar>
 
             <!--<GridLayout columns="*, *" rows="*, *" horizontalAlignment="center" verticalAlignment="center" class="filter-grid">
@@ -36,12 +37,12 @@
                         class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showMaterialTypeSelect($event)"></Button>
             </GridLayout>-->
 
-            <StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="center" class="filter-grid">
+            <StackLayout row="1" orientation="vertical" horizontalAlignment="center" verticalAlignment="center" class="filter-grid">
 
                 <StackLayout orientation="horizontal" verticalAlignment="center">
 
                     <!--<TextField  hint="&#xf002;  Search text" #searchTextField class="input input-rounded fa" style="width: 50%"></TextField>-->
-                    <StackLayout style="width: 50%" orientation="horizontal" marginRight="4">
+                    <StackLayout class="form" style="width: 50%" orientation="horizontal" marginRight="4">
                         <TextField autocorrect="false" hint="Search Name/Puch#" id="searchTxtFieldView" #searchTextField
                                    class="input input-rounded fa" style="width: 85%" (tap)="searchTextFieldTapped($event)"
                                    (returnPress)="searchSubmitted()" returnKeyType="search"></TextField>
@@ -70,7 +71,7 @@
                         class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showMaterialTypeSelect($event)"></Button>
             </StackLayout>
 
-            <ListView [items]="orders" separatorColor="white" (itemTap)="onOrderTap($event)">
+            <ListView row="2" [items]="orders" separatorColor="white" (itemTap)="onOrderTap($event)">
                 <ng-template let-item="item" let-odd="odd" let-even="even">
                     <CardView radius="{{getCardViewRadius()}}" class="cardStyle" [class.odd]="odd" [class.even]="even">
 
@@ -83,12 +84,6 @@
                                     <Image src="{{getIconSource(item.materialType, item.materialType)}}"
                                            stretch="fill" rowSpan="3" col="0" row="0"
                                            marginBottom="2" backgroundColor="#6495ed" borderRadius="10"></Image>
-
-                                    <!--<Button rowSpan="3" col="0" row="3" marginTop="2" borderRadius="10"
-                                            backgroundColor="{{getButtonBgColor(item)}}"
-                                            textWrap="true" text="{{getButtonStatus(item)}}"
-                                            padding="5" (tap)="confirmPickup(item)" >
-                                    </Button>-->
 
                                     <Button *ngIf="item.isPickedOrShipped === true; else notPickedOrShipped"
                                             rowSpan="3" col="0" row="3" marginTop="2" borderRadius="10"
@@ -148,7 +143,7 @@
                 </ng-template>
             </ListView>
 
-        </StackLayout>
+        <!--</StackLayout>-->
 
     </GridLayout>
 </RadSideDrawer>

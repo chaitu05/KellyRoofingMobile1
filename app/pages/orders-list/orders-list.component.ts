@@ -251,7 +251,7 @@ export class OrdersListComponent implements OnInit {
                 this.liService.hideLoading();
             });
         } else
-            this.segBarIndexChangeWork(args);
+            this.segBarIndexChangeWork(segmetedBar);
 
         this.liService.hideLoading();
     }
