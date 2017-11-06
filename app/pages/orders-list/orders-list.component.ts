@@ -238,13 +238,16 @@ export class OrdersListComponent implements OnInit {
 
         this.searchTextView.dismissSoftInput();
 
+        let segmetedBar = <SegmentedBar>args.object;
+        this.title = segmetedBar.items[segmetedBar.selectedIndex].title + this.orderStr;
+
         this.liService.showLoading('Loading ' + this.title);
 
         if (this.dummy7dayOrders.length === 0) { // happens 1st time.
             this.olService.getOrders(null, new Date(), new Date()).then(ords => {
                 this.dummy7dayOrders = ords;
                 console.log('# orders in return: ' + ords.length + '\tassigned: ' + this.dummy7dayOrders.length);
-                this.segBarIndexChangeWork(args);
+                this.segBarIndexChangeWork(segmetedBar);
                 this.liService.hideLoading();
             });
         } else
@@ -253,18 +256,16 @@ export class OrdersListComponent implements OnInit {
         this.liService.hideLoading();
     }
 
-    private segBarIndexChangeWork(args) {
+    private segBarIndexChangeWork(segBar:SegmentedBar) {
 
-        let segmetedBar = <SegmentedBar>args.object;
-        this.title = segmetedBar.items[segmetedBar.selectedIndex].title + this.orderStr;
 
-        console.log('Segmented bar selected index changed: ' + (segmetedBar.selectedIndex) + "\nTitle: " + this.title);
+        console.log('Segmented bar selected index changed: ' + (segBar.selectedIndex) + "\nTitle: " + this.title);
 
         let dt: Date = new Date();
 
-        if (segmetedBar.selectedIndex === 0)
+        if (segBar.selectedIndex === 0)
             this.preWorkForDisplayOrders(dt, dt);
-        else if (segmetedBar.selectedIndex === 1) {
+        else if (segBar.selectedIndex === 1) {
             dt.setDate(dt.getDate() + 1)
             this.preWorkForDisplayOrders(dt, dt);
         }

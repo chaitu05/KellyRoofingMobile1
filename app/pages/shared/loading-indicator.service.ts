@@ -18,14 +18,14 @@ export class LoadingIndicatorService extends LoadingIndicator {
             secondaryProgress: 1
         },
         ios: {
-            details: "Additional detail note!",
+            // details: "Additional detail note!",
             margin: 15,
             dimBackground: true,
-            color: "#4B9ED6", // color of indicator and labels
+            color: "#70808f", // color of indicator and labels
             // background box around indicator
             // hideBezel will override this if true
-            backgroundColor: "yellow",
-            hideBezel: true, // default false, can hide the surrounding bezel
+            backgroundColor: "white",
+            hideBezel: false, // default false, can hide the surrounding bezel
             // view: UIView, // Target view to show on top of (Defaults to entire window)
             // mode: // see iOS specific options below
         }
