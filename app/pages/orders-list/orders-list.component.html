@@ -42,9 +42,11 @@
 
                     <!--<TextField  hint="&#xf002;  Search text" #searchTextField class="input input-rounded fa" style="width: 50%"></TextField>-->
                     <StackLayout style="width: 50%" orientation="horizontal" marginRight="4">
-                        <TextField autocorrect="false" hint="Search Name/Puch#" id="searchTxtFieldView" #searchTextField class="input input-rounded fa"
-                                   style="width: 85%" (tap)="searchTextFieldTapped($event)"></TextField>
-                        <Button class="btn btn-outline btn-rounded-sm search-btn fa" text="&#xf002;" style="width: 15%" horizontalAlignment="right"></Button>
+                        <TextField autocorrect="false" hint="Search Name/Puch#" id="searchTxtFieldView" #searchTextField
+                                   class="input input-rounded fa" style="width: 85%" (tap)="searchTextFieldTapped($event)"
+                                   (returnPress)="searchSubmitted()" returnKeyType="search"></TextField>
+                        <Button class="btn btn-outline btn-rounded-sm search-btn fa" text="&#xf002;"
+                                style="width: 15%" horizontalAlignment="right" (tap)="searchTapped($event)"></Button>
                     </StackLayout>
 
                     <StackLayout class="btn btn-outline btn-rounded-sm" (tap)="showSortListPicker($event)"
@@ -68,7 +70,7 @@
                         class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showMaterialTypeSelect($event)"></Button>
             </StackLayout>
 
-            <ListView [items]="orders" separatorColor="white">
+            <ListView [items]="orders" separatorColor="white" (itemTap)="onOrderTap($event)">
                 <ng-template let-item="item" let-odd="odd" let-even="even">
                     <CardView radius="{{getCardViewRadius()}}" class="cardStyle" [class.odd]="odd" [class.even]="even">
 

@@ -90,11 +90,10 @@ export class OrdersListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this.initSegBarItems();
         this.searchTextView = <TextField>this.page.getViewById<TextField>("searchTxtFieldView");
-        this.olService.getOrders(null, new Date(), new Date()).then(ords => {
+        /*this.olService.getOrders(null, new Date(), new Date()).then(ords => {
             this.dummy7dayOrders = ords;
             console.log('# orders in return: ' + ords.length + '\tassigned: ' + this.dummy7dayOrders.length);
-        });
-
+        });*/
     }
 
 
@@ -110,7 +109,29 @@ export class OrdersListComponent implements OnInit {
         this.drawerComponent.sideDrawer.showDrawer();
     }
 
-    onOrderTap(args: ItemEventData): void {
+    public searchSubmitted(): void {
+
+        console.log('$$$$$$$$$ Search submitted: ' + this.searchTextView.text);
+        this.filterOrdersOnSearchText();
+
+    }
+
+    public searchTapped(args) {
+
+        console.log('Search button tapped: ' + args + '\t search text: ' + this.searchTextView.text);
+        this.searchTextView.dismissSoftInput();
+        this.filterOrdersOnSearchText();
+
+    }
+
+    private filterOrdersOnSearchText() {
+
+        this.liService.showLoading('Searching orders');
+        this.applyFilters()
+        this.liService.hideLoading();
+    }
+
+    public onOrderTap(args: ItemEventData): void {
         console.log('$$$$$$$$$ Item tapped: ' + args);
     }
 
@@ -213,11 +234,26 @@ export class OrdersListComponent implements OnInit {
         }
     }*/
 
-
     public onSegBarSelectedIndexChange(args) {
 
-        console.log('search text view: ' + this.searchTextView);
-        // this.searchTextView.dismissSoftInput();
+        this.searchTextView.dismissSoftInput();
+
+        this.liService.showLoading('Loading ' + this.title);
+
+        if (this.dummy7dayOrders.length === 0) { // happens 1st time.
+            this.olService.getOrders(null, new Date(), new Date()).then(ords => {
+                this.dummy7dayOrders = ords;
+                console.log('# orders in return: ' + ords.length + '\tassigned: ' + this.dummy7dayOrders.length);
+                this.segBarIndexChangeWork(args);
+                this.liService.hideLoading();
+            });
+        } else
+            this.segBarIndexChangeWork(args);
+
+        this.liService.hideLoading();
+    }
+
+    private segBarIndexChangeWork(args) {
 
         let segmetedBar = <SegmentedBar>args.object;
         this.title = segmetedBar.items[segmetedBar.selectedIndex].title + this.orderStr;
@@ -225,8 +261,6 @@ export class OrdersListComponent implements OnInit {
         console.log('Segmented bar selected index changed: ' + (segmetedBar.selectedIndex) + "\nTitle: " + this.title);
 
         let dt: Date = new Date();
-
-        this.liService.showLoading('Loading ' + this.title);
 
         if (segmetedBar.selectedIndex === 0)
             this.preWorkForDisplayOrders(dt, dt);
@@ -240,7 +274,6 @@ export class OrdersListComponent implements OnInit {
         }
         this.ordersWithoutFilters = this.orders;
         this.applyFilters();
-        this.liService.hideLoading();
     }
 
     onMainMenuTap(): void {
@@ -261,6 +294,7 @@ export class OrdersListComponent implements OnInit {
     public showMaterialTypeSelect(args) {
 
         console.log('show order type selector tapped: ' + Object.keys(MaterialType));
+        this.searchTextView.dismissSoftInput();
 
         this.showModalOptions(Object.keys(MaterialType), this.selectedMatTypes, 'Select Types', MultiSelModalComponent, false)
             .then((result: string[]) => {
@@ -281,11 +315,9 @@ export class OrdersListComponent implements OnInit {
 
         this.applyMatTypeFilter();
 
-        if (!!this.searchTextField.text && this.searchTextField.text.length > 2)
-            this.applySearchFilter();
+        this.applySearchFilter();
 
-        if (this.isSortSelected && this.sortBtnText !== environment.SortBtnText)
-            this.applySort();
+        this.applySort();
     }
 
     private applyMatTypeFilter(): void {
@@ -303,9 +335,19 @@ export class OrdersListComponent implements OnInit {
 
     private applySearchFilter(): void {
 
+        if (this.searchTextView.text.trim().length === 0)
+            return;
+
+        let filteredOrds: Order[] = [];
+        filteredOrds = this.orders.filter((ord) =>
+            (ord.jobName.toUpperCase() + ord.purchOrderNum).indexOf(this.searchTextView.text) > 0);
+        this.orders = filteredOrds;
     }
 
     private applySort(): void {
+
+        if (!this.isSortSelected && this.sortBtnText === environment.SortBtnText)
+            return;
 
         // find first index of order with isPickedOrDelivered true.
         let idx = this.orders.findIndex(ord => ord.isPickedOrShipped === true);
@@ -418,6 +460,8 @@ export class OrdersListComponent implements OnInit {
 
 
     public showSortListPicker(args) {
+
+        this.searchTextView.dismissSoftInput();
 
         this.showModalOptions(environment.SortOnProps,
             (this.isSortSelected ? new OrderingParams(this.sortBtnText, this.sortedAsc) : new OrderingParams()),
