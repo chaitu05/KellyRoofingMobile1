@@ -25,10 +25,15 @@ $order-even-bg-color: #f0ffff;
 $marginFilterAndCards: 5dpi;
 //$order-even-bg-color: #d1e1f9;
 //$order-even-bg-color: #f2f2f2;
-
+$picked-or-delivered-bg-color: #7cc17c;
 
 .pick-or-del-btn {
     text-align: center;
+}
+
+.picked-or-delivered-btn {
+    text-align: center;
+    background-color: lighten($picked-or-delivered-bg-color, 22%);
 }
 
 .span-as-block {

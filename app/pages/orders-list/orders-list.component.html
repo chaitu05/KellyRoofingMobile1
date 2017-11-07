@@ -87,8 +87,8 @@
 
                                     <Button *ngIf="item.isPickedOrShipped === true; else notPickedOrShipped"
                                             rowSpan="3" col="0" row="3" marginTop="2" borderRadius="10"
-                                            backgroundColor="{{getButtonBgColor(item)}}" textWrap="true"
-                                            padding="5" (tap)="confirmPickup(item)" class="pick-or-del-btn">
+                                            textWrap="true"
+                                            padding="5" class="picked-or-delivered-btn" >
                                         <FormattedString>
                                             <Span text="&#xf046;&#x000a;" class="fa"></Span>
                                             <Span text="{{getButtonStatus(item)}}"></Span>

@@ -214,13 +214,27 @@ export class OrdersListComponent implements OnInit {
 
         dialogs.confirm({
             title: "Picking up Order",
-            message: "I am picking up \"" + o.jobName + "-" + o.salesOrderNum
+            message: "\nI am picking up \"" + o.jobName + "-" + o.purchOrderNum
             + "\" order at " + new Date().toLocaleString(),
             okButtonText: "Yes",
             cancelButtonText: "No",
 
         }).then((result) => {
-            console.log(result)
+            console.log(result);
+            if(result) {
+                this.liService.showLoading('Moving Picked/Delivered Order to Bottom.');
+                let idx = this.ordersWithoutFilters.indexOf(o);
+                let owf = this.ordersWithoutFilters[idx];
+                // update order finished
+                o.isPickedOrShipped = true;
+                owf.isPickedOrShipped = true;
+                // remove and add order to end
+                let remEleArr:Order[] = this.orders.splice(this.orders.indexOf(o), 1);
+                this.orders.push(...remEleArr);
+                // Apply sort
+                this.applySort();
+                this.liService.hideLoading();
+            }
         });
     }
 
