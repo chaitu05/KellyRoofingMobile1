@@ -123,12 +123,19 @@
                                         </Label>
                                         <Label *ngIf="item.note" text="{{item.note}}" class="m-b-5 m-l-15 m-r-15 cardOrderListNoteLabel"
                                                textWrap="true"></Label>
-                                        <Label textWrap="true" class="m-b-5">
+                                        <WrapLayout orientation="horizontal" [ngClass]="{'m-b-5': true, 'link-color': !item.isPickedOrShipped}" (tap)="pickDeliverDtChangeTap(item)">
+                                            <Label *ngIf="item.isPickedOrShipped === false" text="&#xf040;  " class="fa"></Label>
+                                            <Label text="Pickup/Deliver Date: " class="cardOrderListLabel"></Label>
+                                            <Label text="{{item.pickupDate | date:'medium'}}" class="cardOrderListLabel"></Label>
+                                        </WrapLayout>
+                                        <!--<Label textWrap="true" class="m-b-5 link-color" (tap)="pickDeliverDtChangeTap(item)">
                                             <FormattedString>
+                                                <Span *ngIf="item.isPickedOrShipped === true" text="&#xf040;  " class="fa"></Span>
                                                 <Span text="Pickup/Deliver Date: " class="cardOrderListLabel"></Span>
                                                 <Span text="{{item.pickupDate | date:'medium'}}" class="cardOrderListLabel"></Span>
+                                                &lt;!&ndash;<Span text="   &#xf040;   &#xf044;   &#xf14b;" class="fa"></Span>&ndash;&gt;
                                             </FormattedString>
-                                        </Label>
+                                        </Label>-->
                                         <Label text="City: {{item.city}}" textWrap="true" class="cardOrderListLabel m-b-5"></Label>
                                         <Label text="Sales Order#: {{item.salesOrderNum}}" textWrap="true" class="cardOrderListLabel"></Label>
                                         <!--<Label text="Pickup Date: {{item.pickupDate | date:'medium'}}" textWrap="true"></Label>-->

@@ -238,6 +238,10 @@ export class OrdersListComponent implements OnInit {
         });
     }
 
+    pickDeliverDtChangeTap(order: Order) {
+        console.log('Deliver date change tapped: ' + order.jobName);
+    }
+
     /*public segBarLoaded() {
         console.log('In segbar loaded');
         if(isAndroid) {
