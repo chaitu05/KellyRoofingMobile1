@@ -6,6 +6,7 @@ import {SideDrawerComponent} from "./side-drawer/side-drawer.component";
 import {ModalOptionsComponent} from "./modal-options/modal-options.component";
 import {MultiSelModalComponent} from "./multi-sel-modal/multi-sel-modal.component";
 import {LoadingIndicatorService} from "./loading-indicator.service";
+import {ModalDatepickComponent} from "./modal-datepick/modal-datepick.component";
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import {LoadingIndicatorService} from "./loading-indicator.service";
         SideDrawerComponent,
         ModalOptionsComponent,
         MultiSelModalComponent,
+        ModalDatepickComponent
     ],
     providers: [
         LoadingIndicatorService
@@ -24,12 +26,13 @@ import {LoadingIndicatorService} from "./loading-indicator.service";
         SideDrawerComponent,
         ModalOptionsComponent,
         MultiSelModalComponent,
+        ModalDatepickComponent,
         NativeScriptUISideDrawerModule
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ],
-    entryComponents: [ModalOptionsComponent, MultiSelModalComponent]
+    entryComponents: [ModalOptionsComponent, MultiSelModalComponent, ModalDatepickComponent]
 })
 export class SharedModule {
 }

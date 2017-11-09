@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild, ViewContainerRef} from "@angular/core";
 import {Order} from "../../model/order";
 import * as dialogs from "tns-core-modules/ui/dialogs";
-import {ItemEventData} from "tns-core-modules/ui/list-view";
+import {ItemEventData, ListView} from "tns-core-modules/ui/list-view";
 import {environment} from "../../config/environment";
 import {TextField} from "tns-core-modules/ui/text-field";
 import {SegmentedBar, SegmentedBarItem} from "tns-core-modules/ui/segmented-bar";
@@ -17,6 +17,7 @@ import {MaterialType} from "../../model/material-type";
 import {MultiSelModalComponent} from "../shared/multi-sel-modal/multi-sel-modal.component";
 import {LoadingIndicatorService} from "../shared/loading-indicator.service";
 import {Page} from "tns-core-modules/ui/page";
+import {ModalDatepickComponent} from "../shared/modal-datepick/modal-datepick.component";
 
 @Component({
     selector: "OrdersList",
@@ -56,6 +57,7 @@ export class OrdersListComponent implements OnInit {
     public isSortSelected: boolean = false;
     public sortedAsc: boolean = false;
     private searchTextView: TextField;
+    private ordersListView: ListView;
     // public activityIndicator:boolean = false;
     /* ***********************************************************
         * Use the @ViewChild decorator to get a reference to the drawer component.
@@ -90,6 +92,7 @@ export class OrdersListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this.initSegBarItems();
         this.searchTextView = <TextField>this.page.getViewById<TextField>("searchTxtFieldView");
+        this.ordersListView = <ListView>this.page.getViewById<ListView>("ordersListView");
         /*this.olService.getOrders(null, new Date(), new Date()).then(ords => {
             this.dummy7dayOrders = ords;
             console.log('# orders in return: ' + ords.length + '\tassigned: ' + this.dummy7dayOrders.length);
@@ -221,7 +224,7 @@ export class OrdersListComponent implements OnInit {
 
         }).then((result) => {
             console.log(result);
-            if(result) {
+            if (result) {
                 this.liService.showLoading('Moving Picked/Delivered Order to Bottom.');
                 let idx = this.ordersWithoutFilters.indexOf(o);
                 let owf = this.ordersWithoutFilters[idx];
@@ -229,7 +232,7 @@ export class OrdersListComponent implements OnInit {
                 o.isPickedOrShipped = true;
                 owf.isPickedOrShipped = true;
                 // remove and add order to end
-                let remEleArr:Order[] = this.orders.splice(this.orders.indexOf(o), 1);
+                let remEleArr: Order[] = this.orders.splice(this.orders.indexOf(o), 1);
                 this.orders.push(...remEleArr);
                 // Apply sort
                 this.applySort();
@@ -239,7 +242,37 @@ export class OrdersListComponent implements OnInit {
     }
 
     pickDeliverDtChangeTap(order: Order) {
+
         console.log('Deliver date change tapped: ' + order.jobName);
+        let ordIdx = this.orders.indexOf(order);
+        console.log('Index of order: ' + this.orders.indexOf(order))
+
+        this.searchTextView.dismissSoftInput();
+
+        let minDt: Date = new Date();
+        let maxDt: Date = new Date(order.pickupDate);
+        maxDt.setDate(order.pickupDate.getDate() + 30);
+
+        const options: ModalDialogOptions = {
+            viewContainerRef: this.vcRef,
+            context: {
+                "initialDate": order.pickupDate, "title": 'Change Pick/Deliver Date',
+                "minDate": minDt, "maxDate": maxDt
+            },
+            fullscreen: false,
+        };
+
+        this.modalService.showModal(ModalDatepickComponent, options)
+            .then((selDate: Date) => {
+                console.log('came back from modal: ' + selDate);
+                if (!!selDate) {
+                    order.pickupDate = new Date(selDate);
+                    // this.ordersListView.refresh();
+                    // TODO: Call service to update order on server.
+                }
+            }).catch(error => this.handleError(error));
+        ;
+
     }
 
     /*public segBarLoaded() {

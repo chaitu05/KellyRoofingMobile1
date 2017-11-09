@@ -71,7 +71,7 @@
                         class="btn btn-outline btn-rounded-sm btn-material-type" (tap)="showMaterialTypeSelect($event)"></Button>
             </StackLayout>
 
-            <ListView row="2" [items]="orders" separatorColor="white" (itemTap)="onOrderTap($event)">
+            <ListView id="ordersListView" row="2" [items]="orders" separatorColor="white" (itemTap)="onOrderTap($event)">
                 <ng-template let-item="item" let-odd="odd" let-even="even">
                     <CardView radius="{{getCardViewRadius()}}" class="cardStyle" [class.odd]="odd" [class.even]="even">
 
@@ -126,19 +126,10 @@
                                         <WrapLayout orientation="horizontal" [ngClass]="{'m-b-5': true, 'link-color': !item.isPickedOrShipped}" (tap)="pickDeliverDtChangeTap(item)">
                                             <Label *ngIf="item.isPickedOrShipped === false" text="&#xf040;  " class="fa"></Label>
                                             <Label text="Pickup/Deliver Date: " class="cardOrderListLabel"></Label>
-                                            <Label text="{{item.pickupDate | date:'medium'}}" class="cardOrderListLabel"></Label>
+                                            <Label text="{{item.pickupDate | date:'MMM d, y, h:mm a'}}" class="cardOrderListLabel"></Label>
                                         </WrapLayout>
-                                        <!--<Label textWrap="true" class="m-b-5 link-color" (tap)="pickDeliverDtChangeTap(item)">
-                                            <FormattedString>
-                                                <Span *ngIf="item.isPickedOrShipped === true" text="&#xf040;  " class="fa"></Span>
-                                                <Span text="Pickup/Deliver Date: " class="cardOrderListLabel"></Span>
-                                                <Span text="{{item.pickupDate | date:'medium'}}" class="cardOrderListLabel"></Span>
-                                                &lt;!&ndash;<Span text="   &#xf040;   &#xf044;   &#xf14b;" class="fa"></Span>&ndash;&gt;
-                                            </FormattedString>
-                                        </Label>-->
                                         <Label text="City: {{item.city}}" textWrap="true" class="cardOrderListLabel m-b-5"></Label>
                                         <Label text="Sales Order#: {{item.salesOrderNum}}" textWrap="true" class="cardOrderListLabel"></Label>
-                                        <!--<Label text="Pickup Date: {{item.pickupDate | date:'medium'}}" textWrap="true"></Label>-->
 
                                     </StackLayout>
 
