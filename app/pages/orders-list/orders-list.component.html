@@ -126,7 +126,7 @@
                                         <WrapLayout orientation="horizontal" [ngClass]="{'m-b-5': true, 'link-color': !item.isPickedOrShipped}" (tap)="pickDeliverDtChangeTap(item)">
                                             <Label *ngIf="item.isPickedOrShipped === false" text="&#xf040;  " class="fa"></Label>
                                             <Label text="Pickup/Deliver Date: " class="cardOrderListLabel"></Label>
-                                            <Label text="{{item.pickupDate | date:'MMM d, y, h:mm a'}}" class="cardOrderListLabel"></Label>
+                                            <Label text="{{item.pickupDate | date:'MMM d, y, h:mm a'}}" textWrap="true" class="cardOrderListLabel" ></Label>
                                         </WrapLayout>
                                         <Label text="City: {{item.city}}" textWrap="true" class="cardOrderListLabel m-b-5"></Label>
                                         <Label text="Sales Order#: {{item.salesOrderNum}}" textWrap="true" class="cardOrderListLabel"></Label>

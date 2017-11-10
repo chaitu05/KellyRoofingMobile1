@@ -56,6 +56,12 @@ export class SideDrawerComponent implements OnInit {
                 name: "next 20 days orders",
                 route: "/orders-list",
                 icon: "\uf005"
+            },
+            {
+                title: "Last 30 days Orders",
+                name: "Last 30 days orders",
+                route: "/orders-list",
+                icon: "\uf005"
             }
         ];
     }

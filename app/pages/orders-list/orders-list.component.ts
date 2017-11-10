@@ -17,6 +17,7 @@ import {MaterialType} from "../../model/material-type";
 import {MultiSelModalComponent} from "../shared/multi-sel-modal/multi-sel-modal.component";
 import {LoadingIndicatorService} from "../shared/loading-indicator.service";
 import {Page} from "tns-core-modules/ui/page";
+import {ModalDatetimepicker} from "nativescript-modal-datetimepicker";
 import {ModalDatepickComponent} from "../shared/modal-datepick/modal-datepick.component";
 
 @Component({
@@ -58,6 +59,7 @@ export class OrdersListComponent implements OnInit {
     public sortedAsc: boolean = false;
     private searchTextView: TextField;
     private ordersListView: ListView;
+    private modalDatetimepicker: ModalDatetimepicker;
     // public activityIndicator:boolean = false;
     /* ***********************************************************
         * Use the @ViewChild decorator to get a reference to the drawer component.
@@ -93,6 +95,7 @@ export class OrdersListComponent implements OnInit {
         this.initSegBarItems();
         this.searchTextView = <TextField>this.page.getViewById<TextField>("searchTxtFieldView");
         this.ordersListView = <ListView>this.page.getViewById<ListView>("ordersListView");
+        this.modalDatetimepicker = new ModalDatetimepicker();
         /*this.olService.getOrders(null, new Date(), new Date()).then(ords => {
             this.dummy7dayOrders = ords;
             console.log('# orders in return: ' + ords.length + '\tassigned: ' + this.dummy7dayOrders.length);
@@ -241,6 +244,39 @@ export class OrdersListComponent implements OnInit {
         });
     }
 
+    /*pickDeliverDtChangeTap(order: Order) {
+
+        console.log('Deliver date change tapped: ' + order.jobName);
+        let ordIdx = this.orders.indexOf(order);
+        console.log('Index of order: ' + this.orders.indexOf(order))
+
+        this.searchTextView.dismissSoftInput();
+
+        let minDt: Date = new Date();
+        let maxDt: Date = new Date(order.pickupDate);
+        maxDt.setDate(order.pickupDate.getDate() + 30);
+
+        this.modalDatetimepicker.pickDate({
+            title: "Change Pick/Deliver Date",
+            theme: "dark blurry",
+            maxDate: maxDt,
+            minDate: minDt,
+            is24HourView: true
+        })
+            .then((result: any) => {
+                console.log("result: " + result);
+                console.log("Result from modal: " + result.day + "-" + result.month + "-" + result.year);
+                let selDate = new Date(order.pickupDate);
+                selDate.setFullYear(result.year, result.month - 1, result.day);
+                // let selDate = new Date(result.year, result.month - 1, result.day, order.pickupDate.getHours(), order.pickupDate.getMinutes(), 0, 0);
+                order.pickupDate = new Date(selDate);
+                console.log('order pickup date: ' + order.pickupDate);
+            }).catch((error) => {
+            console.error("Error choosing different pick/deliver date: " + error);
+        });
+
+    }*/
+
     pickDeliverDtChangeTap(order: Order) {
 
         console.log('Deliver date change tapped: ' + order.jobName);
@@ -271,7 +307,6 @@ export class OrdersListComponent implements OnInit {
                     // TODO: Call service to update order on server.
                 }
             }).catch(error => this.handleError(error));
-        ;
 
     }
 
